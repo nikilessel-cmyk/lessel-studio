@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lessel — RedNote Content Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1814;
+  --paper: #f7f4ef;
+  --warm: #f0ebe2;
+  --accent: #c8472b;
+  --gold: #b8956a;
+  --gold-light: #e8d5bc;
+  --muted: #7a746b;
+  --border: #e0d9cf;
+  --card: #ffffff;
+  --success: #2d6a4f;
+  --success-bg: #d4edda;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; }
+
+/* ── Header ── */
+header {
+  background: var(--ink);
+  padding: 0 40px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+}
+.logo { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--paper); }
+.logo em { color: var(--gold); font-style: normal; }
+.header-right { font-size: 11px; color: rgba(247,244,239,0.4); letter-spacing: 0.08em; }
+
+/* ── Layout ── */
+.app { display: grid; grid-template-columns: 380px 1fr; min-height: calc(100vh - 58px); }
+
+/* ── Left panel ── */
+.sidebar {
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  padding: 32px 28px;
+  overflow-y: auto;
+  position: sticky;
+  top: 58px;
+  height: calc(100vh - 58px);
+}
+.section-label {
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+h2 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 400; margin-bottom: 6px; }
+.sub { color: var(--muted); font-size: 13px; line-height: 1.6; margin-bottom: 28px; }
+
+label {
+  display: block; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 7px;
+}
+input[type=text], input[type=url], textarea, select {
+  width: 100%; padding: 11px 14px;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--paper); font-family: 'DM Sans', sans-serif;
+  font-size: 14px; color: var(--ink); outline: none;
+  transition: border-color 0.2s; margin-bottom: 16px;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--gold); background: white; }
+textarea { min-height: 80px; resize: vertical; }
+
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.row2 > div { display: flex; flex-direction: column; }
+.row2 input, .row2 select { margin-bottom: 0; }
+
+.feature-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 16px;
+}
+.ftag {
+  display: flex; align-items: center; gap: 7px;
+  padding: 7px 10px; border: 1px solid var(--border);
+  border-radius: 6px; cursor: pointer; font-size: 12px;
+  transition: all 0.15s; background: var(--paper);
+}
+.ftag:has(input:checked) { border-color: var(--gold); background: #fdf6ee; }
+.ftag input { margin: 0; accent-color: var(--gold); }
+
+.floorplan-toggle {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px; border: 1px solid var(--border);
+  border-radius: 8px; margin-bottom: 16px; cursor: pointer;
+  background: var(--paper); transition: all 0.15s; font-size: 13px;
+}
+.floorplan-toggle:has(input:checked) { border-color: var(--gold); background: #fdf6ee; }
+.floorplan-toggle input { margin: 0; accent-color: var(--gold); }
+
+.photo-count-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.photo-count-row label { margin-bottom: 0; white-space: nowrap; }
+.photo-count-row input { margin-bottom: 0; width: 70px; }
+.photo-hint { font-size: 11px; color: var(--muted); flex: 1; }
+
+hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+/* Generate button */
+.gen-btn {
+  width: 100%; padding: 15px;
+  background: var(--ink); color: var(--paper);
+  border: none; border-radius: 10px;
+  font-family: 'Playfair Display', serif; font-size: 16px;
+  cursor: pointer; transition: background 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.gen-btn:hover { background: #2d2a24; }
+.gen-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.spinner { width: 16px; height: 16px; border: 2px solid rgba(247,244,239,0.3); border-top-color: var(--paper); border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+.gen-btn.loading .spinner { display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.progress { display: none; margin-top: 14px; background: var(--warm); border-radius: 8px; padding: 12px 14px; }
+.progress.show { display: block; }
+.pstep { display: flex; align-items: center; gap: 9px; padding: 3px 0; font-size: 12px; color: var(--muted); opacity: 0.4; transition: opacity 0.3s; }
+.pstep.on { opacity: 1; color: var(--ink); }
+.pstep.done { opacity: 0.55; }
+.pdot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); flex-shrink: 0; transition: background 0.3s; }
+.pstep.on .pdot { background: var(--gold); }
+.pstep.done .pdot { background: var(--success); }
+
+.err { display: none; margin-top: 12px; padding: 12px 14px; background: #fdf0ed; border: 1px solid rgba(200,71,43,0.25); border-radius: 8px; font-size: 13px; color: var(--accent); }
+.err.show { display: block; }
+
+/* ── Right / output ── */
+.output { background: var(--warm); padding: 36px 40px; overflow-y: auto; }
+
+.empty {
+  height: 100%; min-height: 500px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 14px; color: var(--muted);
+}
+.empty-icon { font-size: 40px; opacity: 0.4; }
+.empty h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; opacity: 0.45; color: var(--ink); }
+.empty p { font-size: 13px; max-width: 240px; line-height: 1.6; }
+
+.results { display: none; }
+.results.show { display: block; }
+
+/* Slide cards */
+.slide-card {
+  background: white; border-radius: 14px;
+  border: 1px solid var(--border); margin-bottom: 20px;
+  overflow: hidden; animation: up 0.35s ease;
+}
+@keyframes up { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform:none; } }
+
+.slide-header {
+  background: var(--ink); color: var(--paper);
+  padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.slide-title { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+.slide-num { font-size: 11px; color: var(--gold); font-family: 'Playfair Display', serif; }
+.slide-body { padding: 20px; }
+
+/* Field rows */
+.frow {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.frow:last-child { border-bottom: none; }
+.fname { width: 130px; flex-shrink: 0; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; padding-top: 1px; }
+.fval { flex: 1; color: var(--ink); line-height: 1.5; }
+.fval.zh { font-size: 14px; }
+.fval.bilingual { line-height: 1.7; }
+
+/* Caption card */
+.caption-card {
+  background: white; border-radius: 14px; border: 1px solid var(--border);
+  margin-bottom: 20px; overflow: hidden;
+}
+.caption-hdr {
+  padding: 12px 20px; background: #1a1814; color: var(--paper);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.caption-body { padding: 20px; }
+.caption-text { font-size: 14px; line-height: 1.9; white-space: pre-wrap; color: var(--ink); }
+
+/* Hashtag pills */
+.htags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+.htag {
+  background: #f5e8e4; border: 1px solid rgba(200,71,43,0.2);
+  border-radius: 20px; padding: 4px 11px; font-size: 12px; color: var(--accent);
+}
+.htag.fixed { background: var(--gold-light); border-color: rgba(184,149,106,0.4); color: #7a5c35; }
+
+/* Excel row */
+.excel-card {
+  background: white; border-radius: 14px; border: 1px solid var(--border);
+  margin-bottom: 20px; overflow: hidden;
+}
+.excel-hdr { padding: 12px 20px; background: #1a3d2b; color: #d4edda; display: flex; align-items: center; justify-content: space-between; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+.excel-body { padding: 16px 20px; font-size: 12px; color: var(--muted); word-break: break-all; line-height: 1.6; }
+
+/* Copy buttons */
+.copy-btn {
+  padding: 5px 12px; background: rgba(247,244,239,0.15); border: 1px solid rgba(247,244,239,0.2);
+  border-radius: 6px; font-size: 11px; cursor: pointer; color: var(--paper);
+  font-family: 'DM Sans', sans-serif; transition: all 0.15s; white-space: nowrap;
+}
+.copy-btn:hover { background: rgba(247,244,239,0.25); }
+.copy-btn.ok { background: var(--success); border-color: var(--success); }
+.copy-btn-dark {
+  padding: 5px 12px; background: var(--warm); border: 1px solid var(--border);
+  border-radius: 6px; font-size: 11px; cursor: pointer; color: var(--ink);
+  font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+}
+.copy-btn-dark:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.copy-btn-dark.ok { background: var(--success-bg); color: var(--success); border-color: var(--success); }
+
+/* Week banner */
+.week-banner {
+  background: var(--ink); color: var(--paper); border-radius: 12px;
+  padding: 16px 22px; margin-bottom: 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.week-info { font-size: 13px; }
+.week-info strong { display: block; font-family: 'Playfair Display', serif; font-size: 17px; margin-bottom: 2px; color: var(--gold); }
+
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Lessel<em>.</em> <span style="font-family:'DM Sans';font-size:13px;opacity:0.5;margin-left:10px;">RedNote Content Studio</span></div>
+  <div class="header-right">Powered by Claude AI</div>
+</header>
+
+<div class="app">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="section-label">Property input</div>
+    <h2>New post</h2>
+    <p class="sub">Enter the property details and Claude will generate all slide copy + Chinese caption.</p>
+
+    <label>Rightmove URL</label>
+    <input type="url" id="rmUrl" placeholder="https://www.rightmove.co.uk/properties/..." />
+
+    <label>Property address</label>
+    <input type="text" id="address" placeholder="e.g. Cutter Lane, SE10 0XX" />
+
+    <div class="row2">
+      <div>
+        <label>Postcode / area</label>
+        <input type="text" id="postcode" placeholder="e.g. SE10" />
+      </div>
+      <div>
+        <label>Property type</label>
+        <select id="propType">
+          <option value="">Select...</option>
+          <option>Studio apartment</option>
+          <option>1-bed apartment</option>
+          <option>2-bed apartment</option>
+          <option>3-bed apartment</option>
+          <option>1-bed flat</option>
+          <option>2-bed flat</option>
+          <option>3-bed flat</option>
+          <option>2-bed house</option>
+          <option>3-bed house</option>
+          <option>4-bed house</option>
+          <option>Student HMO</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label>Rent (£/month)</label>
+        <input type="text" id="rent" placeholder="e.g. 2,500" />
+      </div>
+      <div>
+        <label>Available from</label>
+        <input type="text" id="avail" placeholder="e.g. Now" />
+      </div>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label>Beds</label>
+        <input type="text" id="beds" placeholder="e.g. 1" />
+      </div>
+      <div>
+        <label>Baths</label>
+        <input type="text" id="baths" placeholder="e.g. 1" />
+      </div>
+    </div>
+
+    <label>Description / key selling points</label>
+    <textarea id="desc" placeholder="e.g. 6th floor, Thames views from balcony, luxury building with pool, cinema room, concierge, near O2 Arena..."></textarea>
+
+    <label>Key features</label>
+    <div class="feature-grid">
+      <label class="ftag"><input type="checkbox" value="Thames views"> Thames views</label>
+      <label class="ftag"><input type="checkbox" value="Balcony"> Balcony</label>
+      <label class="ftag"><input type="checkbox" value="Concierge"> Concierge</label>
+      <label class="ftag"><input type="checkbox" value="Gym"> Gym</label>
+      <label class="ftag"><input type="checkbox" value="Swimming pool"> Swimming pool</label>
+      <label class="ftag"><input type="checkbox" value="Cinema room"> Cinema room</label>
+      <label class="ftag"><input type="checkbox" value="Roof terrace"> Roof terrace</label>
+      <label class="ftag"><input type="checkbox" value="Furnished"> Furnished</label>
+      <label class="ftag"><input type="checkbox" value="Parking"> Parking</label>
+      <label class="ftag"><input type="checkbox" value="Pet friendly"> Pet friendly</label>
+      <label class="ftag"><input type="checkbox" value="Near tube/DLR"> Near tube/DLR</label>
+      <label class="ftag"><input type="checkbox" value="Near O2 Arena"> Near O2 Arena</label>
+    </div>
+
+    <hr>
+    <div class="section-label">Slides structure</div>
+
+    <label class="floorplan-toggle">
+      <input type="checkbox" id="hasFloorplan" checked>
+      <span>Listing has a floorplan (P2)</span>
+    </label>
+
+    <div class="photo-count-row">
+      <label>No. of photos from Rightmove:</label>
+      <input type="text" id="photoCount" value="8" />
+      <span class="photo-hint">2 photos per slide → <span id="slideCount">4</span> photo slides</span>
+    </div>
+
+    <hr>
+
+    <button class="gen-btn" id="genBtn" onclick="generate()">
+      <div class="spinner" id="spinner"></div>
+      <span id="btnTxt">Generate all slides →</span>
+    </button>
+    <div class="err" id="errBox"></div>
+    <div class="progress" id="prog">
+      <div class="pstep" id="s1"><div class="pdot"></div> Reading property details</div>
+      <div class="pstep" id="s2"><div class="pdot"></div> Crafting Chinese caption</div>
+      <div class="pstep" id="s3"><div class="pdot"></div> Writing bilingual Canva copy</div>
+      <div class="pstep" id="s4"><div class="pdot"></div> Building slide structure</div>
+    </div>
+  </aside>
+
+  <!-- ── Output ── -->
+  <main class="output">
+
+    <div class="empty" id="emptyState">
+      <div class="empty-icon">🏙️</div>
+      <h3>Slides appear here</h3>
+      <p>Fill in the property details and generate — you'll get copy for every slide ready to paste into Canva.</p>
+    </div>
+
+    <div class="results" id="results">
+
+      <div class="week-banner" id="weekBanner">
+        <div class="week-info">
+          <strong id="bannerAddress">—</strong>
+          <span id="bannerMeta">—</span>
+        </div>
+        <div style="font-size:12px;color:var(--gold);text-align:right;">
+          Generated <span id="bannerDate">—</span>
+        </div>
+      </div>
+
+      <!-- Slides injected here -->
+      <div id="slidesContainer"></div>
+
+      <!-- Caption -->
+      <div class="caption-card">
+        <div class="caption-hdr">
+          <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;">📱 小红书 Caption (Chinese)</span>
+          <button class="copy-btn" onclick="copyEl('captionTxt', this)">Copy</button>
+        </div>
+        <div class="caption-body">
+          <div class="caption-text" id="captionTxt"></div>
+          <div class="htags" id="hashtagPills"></div>
+          <div style="display:none" id="hashtagRaw"></div>
+        </div>
+      </div>
+
+      <!-- Excel row -->
+      <div class="excel-card">
+        <div class="excel-hdr">
+          <span>📊 Tracker row — paste into Google Sheet</span>
+          <button class="copy-btn" onclick="copyEl('excelTxt', this)">Copy row</button>
+        </div>
+        <div class="excel-body" id="excelTxt"></div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+// Live slide count
+document.getElementById('photoCount').addEventListener('input', function() {
+  const n = parseInt(this.value) || 0;
+  document.getElementById('slideCount').textContent = Math.ceil(n / 2);
+});
+
+function getFeatures() {
+  return [...document.querySelectorAll('.feature-grid input:checked')].map(i => i.value);
+}
+
+function setStep(n) {
+  ['s1','s2','s3','s4'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.classList.remove('on','done');
+    if (i < n-1) el.classList.add('done');
+    else if (i === n-1) el.classList.add('on');
+  });
+}
+
+async function generate() {
+  const btn = document.getElementById('genBtn');
+  const err = document.getElementById('errBox');
+  const prog = document.getElementById('prog');
+
+  const address   = document.getElementById('address').value.trim();
+  const postcode  = document.getElementById('postcode').value.trim();
+  const propType  = document.getElementById('propType').value;
+  const rent      = document.getElementById('rent').value.trim();
+  const avail     = document.getElementById('avail').value.trim();
+  const beds      = document.getElementById('beds').value.trim();
+  const baths     = document.getElementById('baths').value.trim();
+  const desc      = document.getElementById('desc').value.trim();
+  const rmUrl     = document.getElementById('rmUrl').value.trim();
+  const features  = getFeatures();
+  const hasFloor  = document.getElementById('hasFloorplan').checked;
+  const photoN    = parseInt(document.getElementById('photoCount').value) || 6;
+  const photoSlides = Math.ceil(photoN / 2);
+
+  if (!address && !desc) { showErr('Please enter at least an address or description.'); return; }
+
+  err.classList.remove('show');
+  btn.disabled = true; btn.classList.add('loading');
+  document.getElementById('btnTxt').textContent = 'Generating…';
+  prog.classList.add('show'); setStep(1);
+
+  const propertyData = `
+Address: ${address || 'Not provided'}
+Postcode / area: ${postcode}
+Type: ${propType}
+Rent: £${rent}/month
+Available: ${avail || 'TBC'}
+Beds: ${beds} | Baths: ${baths}
+Description: ${desc}
+Key features: ${features.join(', ') || 'none specified'}
+Rightmove URL: ${rmUrl || 'not provided'}
+Has floorplan: ${hasFloor ? 'yes' : 'no'}
+Number of photo slides (2 photos each): ${photoSlides}
+`.trim();
+
+  const prompt = `You are Lessel's social media content specialist. Lessel is a premium London lettings agency targeting Chinese-speaking renters in the UK (mainly students and young professionals). Their RedNote (小红书) posts use a luxury lifestyle tone — aspirational, warm, visually vivid.
+
+Property details:
+${propertyData}
+
+Generate content for a multi-slide RedNote post. Return ONLY valid JSON, no markdown, no preamble.
+
+{
+  "address_short": "short address for poster headline, max 30 chars, e.g. 'Cutter Lane, SE10'",
+  "area_label": "area name only, e.g. 'Greenwich, London'",
+  "postcode_display": "postcode badge e.g. 'SE10'",
+  "type_display": "e.g. '1B1B' (beds+baths shorthand used in Chinese property posts)",
+  "beds": "number",
+  "baths": "number",
+  "price_display": "e.g. '£2,500'",
+  "available": "e.g. 'Now' or 'Aug 2025'",
+  "sqft": "if known, else empty string",
+
+  "slide_cover": {
+    "hashtag_banner": "Chinese hashtag banner text for top of cover, e.g. '#一周一个租赁推荐'",
+    "main_headline_en": "big bold headline in English matching poster style e.g. 'Greenwich 1b1b'",
+    "postcode_badge": "e.g. 'SE10'",
+    "vertical_chinese_text": "evocative vertical Chinese text for left side (10-20 chars), describing the property lifestyle vibe",
+    "bottom_caption_zh": "two-line Chinese caption at bottom of cover, line 1: building/location name, line 2: lifestyle hook. Use \\n to separate lines. e.g. 'Greenwich河景公寓\\n住进泰晤士河畔的一居室'"
+  },
+
+  "slide_floorplan": {
+    "include": ${hasFloor},
+    "caption_zh": "short Chinese caption for floorplan slide, e.g. '户型图 · 515平方英尺'",
+    "caption_en": "short English caption e.g. 'Floor plan · 6th floor · 515 sq ft'"
+  },
+
+  "photo_slides": ${JSON.stringify(
+    Array.from({length: photoSlides}, (_, i) => ({
+      slide_num: i + 1,
+      label_zh: "placeholder — to be filled",
+      label_en: "placeholder — to be filled"
+    }))
+  )},
+
+  "caption_zh": "Full Chinese-only RedNote caption. 120-180 characters. Vivid lifestyle tone targeting Chinese renters in UK. Start with an eye-catching hook. Naturally weave in location highlights, property features, transport links. End with a soft CTA like '私信了解详情💬'. Use line breaks \\n for readability. Include 2-3 emojis. NO hashtags in the caption body.",
+
+  "hashtags": ["exactly 10 hashtags as strings WITHOUT the # symbol. MUST include: 'lessel', '莱赛英伦'. Rest should be relevant mix of location, property type, lifestyle, UK renting topics in Chinese and English"],
+
+  "excel_row": "tab-separated: Property ID (use rightmove ID from URL or 'TBC')\tAddress\tType\tBeds\tBaths\tPrice\tDate Listed (leave blank)\tDate First Seen (today's date dd/mm/yyyy)\tUnposted\t(blank post date)\tURL\t(blank notes)"
+}
+
+For photo_slides, generate vivid bilingual labels for each pair of photos based on typical property photography sequence: living/kitchen first, then bedroom, then bathroom/balcony views, then building amenities. label_zh should be 4-8 chars, label_en max 3 words.`;
+
+  setTimeout(() => setStep(2), 700);
+  setTimeout(() => setStep(3), 1400);
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    setStep(4);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const raw = data.content.map(b => b.text || '').join('');
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const r = JSON.parse(clean);
+    renderResults(r, hasFloor, photoSlides, address, rent, propType, beds);
+  } catch(e) {
+    showErr('Error: ' + e.message + '. Please try again.');
+  } finally {
+    btn.disabled = false; btn.classList.remove('loading');
+    document.getElementById('btnTxt').textContent = 'Generate all slides →';
+    setTimeout(() => prog.classList.remove('show'), 1000);
+  }
+}
+
+function renderResults(r, hasFloor, photoSlides, rawAddress, rent, propType, beds) {
+  // Banner
+  document.getElementById('bannerAddress').textContent = r.address_short || rawAddress;
+  document.getElementById('bannerMeta').textContent = [r.type_display, propType, beds ? beds+'床' : ''].filter(Boolean).join(' · ');
+  document.getElementById('bannerDate').textContent = new Date().toLocaleDateString('en-GB');
+
+  const container = document.getElementById('slidesContainer');
+  container.innerHTML = '';
+
+  let slideNum = 1;
+
+  // ── P1: Cover ──
+  const cv = r.slide_cover || {};
+  container.appendChild(makeSlide(slideNum++, 'P1 — Cover slide', [
+    ['Hashtag banner (top)', cv.hashtag_banner || ''],
+    ['Main headline (EN)', cv.main_headline_en || r.address_short || ''],
+    ['Postcode badge', cv.postcode_badge || r.postcode_display || ''],
+    ['Vertical Chinese text (left)', cv.vertical_chinese_text || ''],
+    ['Bottom caption (ZH)', (cv.bottom_caption_zh || '').replace(/\\n/g, '\n')],
+    ['— Replace —', '🖼 Property exterior photo\n🎨 Area landmark graphic (optional)'],
+  ], [
+    '✏️ Headline font: bold serif, oversized',
+    '📐 Layout: headline overlaps photo, postcode badge bottom-right',
+    '🎨 Vertical text on left side, rotated'
+  ]));
+
+  // ── P2: Floorplan (conditional) ──
+  if (hasFloor) {
+    const fp = r.slide_floorplan || {};
+    container.appendChild(makeSlide(slideNum++, 'P2 — Floorplan slide', [
+      ['Caption (ZH)', fp.caption_zh || ''],
+      ['Caption (EN)', fp.caption_en || ''],
+      ['— Replace —', '🖼 Floorplan image from Rightmove'],
+    ], ['Only include if Rightmove listing has a floorplan image']));
+  }
+
+  // ── Photo slides ──
+  const photoLabels = r.photo_slides || [];
+  for (let i = 0; i < photoSlides; i++) {
+    const pl = photoLabels[i] || {};
+    container.appendChild(makeSlide(slideNum++,
+      `P${slideNum-1} — Photo slide ${i+1} of ${photoSlides}`,
+      [
+        ['Slide label (ZH)', pl.label_zh || ''],
+        ['Slide label (EN)', pl.label_en || ''],
+        ['— Photos —', `Photo ${i*2+1} (top) + Photo ${i*2+2} (bottom)\nDownload from Rightmove listing`],
+      ],
+      ['Use the dual-photo format: top photo + bottom photo with gold border frame', 'Label sits at top-left corner']
+    ));
+  }
+
+  // ── Last slide: CTA (fixed) ──
+  container.appendChild(makeSlide(slideNum++, `P${slideNum-1} — CTA slide (fixed — no changes needed)`, [
+    ['Content', '✅ This slide is always fixed.\nLessel logo + "第一时间掌握房源信息"\nNo edits required.'],
+  ], []));
+
+  // ── Caption ──
+  document.getElementById('captionTxt').textContent = (r.caption_zh || '').replace(/\\n/g, '\n');
+
+  const htPills = document.getElementById('hashtagPills');
+  htPills.innerHTML = '';
+  const tags = r.hashtags || [];
+  const fixedTags = ['lessel', '莱赛英伦'];
+  const rawTags = [];
+  tags.forEach(h => {
+    const tag = h.replace(/^#/, '');
+    const pill = document.createElement('span');
+    pill.className = 'htag' + (fixedTags.includes(tag) ? ' fixed' : '');
+    pill.textContent = '#' + tag;
+    htPills.appendChild(pill);
+    rawTags.push('#' + tag);
+  });
+  document.getElementById('hashtagRaw').textContent = rawTags.join(' ');
+
+  // ── Excel row ──
+  document.getElementById('excelTxt').textContent = (r.excel_row || '').replace(/\\t/g, '\t');
+
+  document.getElementById('emptyState').style.display = 'none';
+  const results = document.getElementById('results');
+  results.classList.add('show');
+  results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function makeSlide(num, title, fields, notes) {
+  const card = document.createElement('div');
+  card.className = 'slide-card';
+
+  const hdr = document.createElement('div');
+  hdr.className = 'slide-header';
+  hdr.innerHTML = `<span class="slide-title">${title}</span><span class="slide-num">Slide ${num}</span>`;
+
+  const body = document.createElement('div');
+  body.className = 'slide-body';
+
+  // Copy all button
+  const allText = fields.map(([k,v]) => `[${k}]\n${v}`).join('\n\n');
+  const copyAllBtn = document.createElement('button');
+  copyAllBtn.className = 'copy-btn-dark';
+  copyAllBtn.textContent = 'Copy all fields';
+  copyAllBtn.style.cssText = 'float:right;margin-bottom:12px;';
+  const copyId = 'slide_' + num + '_all';
+  const hiddenDiv = document.createElement('div');
+  hiddenDiv.id = copyId;
+  hiddenDiv.style.display = 'none';
+  hiddenDiv.textContent = allText;
+  copyAllBtn.onclick = () => copyEl(copyId, copyAllBtn);
+  body.appendChild(hiddenDiv);
+  body.appendChild(copyAllBtn);
+
+  fields.forEach(([key, val]) => {
+    const row = document.createElement('div');
+    row.className = 'frow';
+    const isZh = /[\u4e00-\u9fff]/.test(val);
+    const isReplace = key.includes('Replace') || key.includes('Photo') || key.includes('fixed');
+    row.innerHTML = `
+      <span class="fname">${key}</span>
+      <span class="fval${isZh ? ' zh' : ''}${isReplace ? '" style="color:var(--muted);font-style:italic' : ''}">${val.replace(/\n/g,'<br>')}</span>
+    `;
+    body.appendChild(row);
+  });
+
+  if (notes && notes.length) {
+    const noteDiv = document.createElement('div');
+    noteDiv.style.cssText = 'margin-top:12px;padding:10px 12px;background:var(--warm);border-radius:7px;font-size:11px;color:var(--muted);line-height:1.7;';
+    noteDiv.innerHTML = notes.map(n => `💡 ${n}`).join('<br>');
+    body.appendChild(noteDiv);
+  }
+
+  card.appendChild(hdr);
+  card.appendChild(body);
+  return card;
+}
+
+function showErr(msg) {
+  const eb = document.getElementById('errBox');
+  eb.textContent = msg; eb.classList.add('show');
+}
+
+function copyEl(id, btn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  navigator.clipboard.writeText(el.textContent || el.innerText).then(() => {
+    btn.textContent = '✓ Copied';
+    btn.classList.add('ok');
+    setTimeout(() => {
+      btn.textContent = btn.classList.contains('copy-btn') ? 'Copy' : 'Copy all fields';
+      btn.classList.remove('ok');
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
