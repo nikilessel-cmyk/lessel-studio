@@ -8,791 +8,532 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink: #1a1814;
-  --paper: #f7f4ef;
-  --warm: #f0ebe2;
-  --gold: #b8956a;
-  --gold-light: #f5ead8;
-  --muted: #7a746b;
-  --border: #e0d9cf;
-  --card: #ffffff;
-  --accent: #c8472b;
-  --success: #2d6a4f;
-  --success-bg: #d4edda;
-  --posted-bg: #f0f0ee;
-  --posted-text: #aaa9a4;
+  --ink: #1a1814; --paper: #f7f4ef; --warm: #f0ebe2;
+  --gold: #b8956a; --gold-light: #f5ead8; --muted: #7a746b;
+  --border: #e0d9cf; --card: #ffffff; --accent: #c8472b;
+  --success: #2d6a4f; --success-bg: #d4edda;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; overflow: hidden; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;overflow:hidden}
 
-/* ── Header ── */
-header {
-  background: var(--ink); height: 52px;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 24px; position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-}
-.logo { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--paper); }
-.logo em { color: var(--gold); font-style: normal; }
-.hdr-right { display: flex; align-items: center; gap: 12px; }
-.sheet-status { font-size: 11px; color: rgba(247,244,239,0.45); }
-.sheet-status.ok { color: #6fcf97; }
-.sheet-status.err { color: #eb5757; }
+header{background:var(--ink);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:fixed;top:0;left:0;right:0;z-index:200}
+.logo{font-family:'Playfair Display',serif;font-size:18px;color:var(--paper)}
+.logo em{color:var(--gold);font-style:normal}
+.sheet-status{font-size:11px;color:rgba(247,244,239,0.45)}
+.sheet-status.ok{color:#6fcf97}
+.sheet-status.err{color:#eb5757}
 
-/* ── Three-column layout ── */
-.layout {
-  display: grid;
-  grid-template-columns: 300px 340px 1fr;
-  height: calc(100vh - 52px);
-  margin-top: 52px;
-}
+.layout{display:grid;grid-template-columns:300px 360px 1fr;height:calc(100vh - 52px);margin-top:52px}
 
-/* ── Column 1: Property list ── */
-.prop-panel {
-  background: var(--ink);
-  overflow-y: auto;
-  display: flex; flex-direction: column;
-}
-.prop-panel-hdr {
-  padding: 18px 18px 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  position: sticky; top: 0; background: var(--ink); z-index: 10;
-}
-.prop-panel-hdr h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 16px; color: var(--paper); font-weight: 400; margin-bottom: 8px;
-}
-.sheet-connect {
-  display: flex; gap: 6px;
-}
-.sheet-connect input {
-  flex: 1; padding: 7px 10px; background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;
-  color: var(--paper); font-size: 11px; font-family: 'DM Sans', sans-serif; outline: none;
-}
-.sheet-connect input::placeholder { color: rgba(247,244,239,0.3); }
-.sheet-connect input:focus { border-color: var(--gold); }
-.connect-btn {
-  padding: 7px 12px; background: var(--gold); border: none; border-radius: 6px;
-  color: var(--ink); font-size: 11px; font-weight: 500; cursor: pointer;
-  font-family: 'DM Sans', sans-serif; white-space: nowrap; transition: opacity 0.15s;
-}
-.connect-btn:hover { opacity: 0.85; }
-.connect-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+/* Col 1 */
+.prop-panel{background:var(--ink);overflow-y:auto;display:flex;flex-direction:column}
+.prop-panel-hdr{padding:18px 18px 10px;border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;background:var(--ink);z-index:10}
+.prop-panel-hdr h3{font-family:'Playfair Display',serif;font-size:16px;color:var(--paper);font-weight:400;margin-bottom:8px}
+.sheet-connect{display:flex;gap:6px}
+.sheet-connect input{flex:1;padding:7px 10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:var(--paper);font-size:11px;font-family:'DM Sans',sans-serif;outline:none}
+.sheet-connect input::placeholder{color:rgba(247,244,239,0.3)}
+.sheet-connect input:focus{border-color:var(--gold)}
+.connect-btn{padding:7px 12px;background:var(--gold);border:none;border-radius:6px;color:var(--ink);font-size:11px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.connect-btn:disabled{opacity:0.5;cursor:not-allowed}
+.prop-search{margin:8px 18px 0}
+.prop-search input{width:100%;padding:7px 10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--paper);font-size:12px;font-family:'DM Sans',sans-serif;outline:none}
+.prop-search input::placeholder{color:rgba(247,244,239,0.3)}
+.prop-search input:focus{border-color:var(--gold)}
+.prop-list{flex:1;padding:8px 0}
+.section-hdr{padding:10px 18px 4px;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(184,149,106,0.8);display:flex;align-items:center;gap:8px}
+.section-hdr::after{content:'';flex:1;height:1px;background:rgba(184,149,106,0.2)}
+.prop-item{padding:9px 18px;cursor:pointer;border-left:2px solid transparent;transition:all 0.15s}
+.prop-item:hover{background:rgba(255,255,255,0.05)}
+.prop-item.selected{background:rgba(184,149,106,0.12);border-left-color:var(--gold)}
+.prop-item.posted{opacity:0.38;cursor:default}
+.prop-item.posted:hover{background:none}
+.prop-addr{font-size:12px;color:var(--paper);line-height:1.35;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:238px}
+.prop-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.prop-price{font-size:11px;color:var(--gold)}
+.prop-type{font-size:10px;color:rgba(247,244,239,0.38)}
+.rec-badge{font-size:9px;background:rgba(184,149,106,0.25);color:var(--gold);padding:1px 6px;border-radius:10px}
+.posted-badge{font-size:9px;background:rgba(45,106,79,0.3);color:#6fcf97;padding:1px 6px;border-radius:10px}
+.prop-stats{font-size:10px;color:rgba(247,244,239,0.28);margin-top:2px}
+.empty-list{padding:28px 18px;text-align:center;font-size:12px;color:rgba(247,244,239,0.3);line-height:1.7}
+.loading-list{padding:20px 18px;display:flex;align-items:center;gap:10px;font-size:12px;color:rgba(247,244,239,0.4)}
+.mini-spin{width:14px;height:14px;border:1.5px solid rgba(184,149,106,0.3);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.prop-counts{padding:8px 18px;font-size:10px;color:rgba(247,244,239,0.3);border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:12px}
+.prop-counts em{color:var(--gold);font-style:normal}
 
-.prop-search {
-  margin: 10px 18px 0;
-}
-.prop-search input {
-  width: 100%; padding: 7px 10px; background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
-  color: var(--paper); font-size: 12px; font-family: 'DM Sans', sans-serif; outline: none;
-}
-.prop-search input::placeholder { color: rgba(247,244,239,0.3); }
-.prop-search input:focus { border-color: var(--gold); }
+/* Col 2 */
+.form-panel{background:var(--card);border-right:1px solid var(--border);overflow-y:auto;padding:20px 20px}
+.form-lbl{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.form-lbl::after{content:'';flex:1;height:1px;background:var(--border)}
+.sel-banner{background:var(--gold-light);border:1px solid rgba(184,149,106,0.3);border-radius:8px;padding:9px 12px;margin-bottom:14px;font-size:12px;line-height:1.5;display:none}
+.sel-banner.show{display:block}
+.sel-banner strong{display:block;font-size:13px;color:var(--ink);margin-bottom:2px}
+.sel-banner span{color:var(--muted)}
+label{display:block;font-size:10px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+input[type=text],input[type=url],textarea,select{width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:7px;background:var(--paper);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);outline:none;transition:border-color 0.2s;margin-bottom:11px}
+input:focus,textarea:focus,select:focus{border-color:var(--gold);background:white}
+textarea{min-height:64px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.row2>div{display:flex;flex-direction:column}
+.row2 input,.row2 select{margin-bottom:0}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:11px}
+.ftag{display:flex;align-items:center;gap:6px;padding:5px 8px;border:1px solid var(--border);border-radius:5px;cursor:pointer;font-size:11px;transition:all 0.12s;background:var(--paper)}
+.ftag:has(input:checked){border-color:var(--gold);background:#fdf6ee}
+.ftag input{margin:0;accent-color:var(--gold)}
+.fp-row{display:flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid var(--border);border-radius:7px;margin-bottom:11px;cursor:pointer;background:var(--paper);font-size:12px}
+.fp-row:has(input:checked){border-color:var(--gold);background:#fdf6ee}
+.fp-row input{margin:0;accent-color:var(--gold)}
+.photo-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.photo-row label{margin-bottom:0;white-space:nowrap}
+.photo-row input{margin-bottom:0;width:55px}
+.photo-hint{font-size:10px;color:var(--muted)}
+hr{border:none;border-top:1px solid var(--border);margin:14px 0}
+.gen-btn{width:100%;padding:13px;background:var(--ink);color:var(--paper);border:none;border-radius:8px;font-family:'Playfair Display',serif;font-size:15px;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.gen-btn:hover{background:#2d2a24}
+.gen-btn:disabled{opacity:0.5;cursor:not-allowed}
+.spinner{width:14px;height:14px;border:2px solid rgba(247,244,239,0.3);border-top-color:var(--paper);border-radius:50%;animation:spin 0.7s linear infinite;display:none}
+.gen-btn.loading .spinner{display:block}
+.prog{display:none;margin-top:10px;background:var(--warm);border-radius:7px;padding:9px 11px}
+.prog.show{display:block}
+.pstep{display:flex;align-items:center;gap:7px;padding:2px 0;font-size:11px;color:var(--muted);opacity:0.4;transition:opacity 0.3s}
+.pstep.on{opacity:1;color:var(--ink)}
+.pstep.done{opacity:0.5}
+.pdot{width:6px;height:6px;border-radius:50%;background:var(--border);flex-shrink:0}
+.pstep.on .pdot{background:var(--gold)}
+.pstep.done .pdot{background:var(--success)}
+.err{display:none;margin-top:9px;padding:9px 11px;background:#fdf0ed;border:1px solid rgba(200,71,43,0.25);border-radius:7px;font-size:12px;color:var(--accent)}
+.err.show{display:block}
+.mark-btn{width:100%;padding:8px;margin-top:8px;background:var(--success-bg);color:var(--success);border:1px solid rgba(45,106,79,0.3);border-radius:7px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;display:none;transition:all 0.15s}
+.mark-btn.show{display:block}
+.mark-btn:hover{background:var(--success);color:white}
 
-.prop-list { flex: 1; padding: 10px 0; }
-
-.section-hdr {
-  padding: 10px 18px 5px;
-  font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: rgba(184,149,106,0.8); display: flex; align-items: center; gap: 8px;
-}
-.section-hdr::after { content:''; flex:1; height:1px; background: rgba(184,149,106,0.2); }
-
-.prop-item {
-  padding: 10px 18px; cursor: pointer;
-  border-left: 2px solid transparent;
-  transition: all 0.15s; position: relative;
-}
-.prop-item:hover { background: rgba(255,255,255,0.05); }
-.prop-item.selected { background: rgba(184,149,106,0.12); border-left-color: var(--gold); }
-.prop-item.posted { opacity: 0.4; cursor: default; }
-.prop-item.posted:hover { background: none; }
-.prop-item.duplicate { border-left-color: #eb5757; }
-
-.prop-addr {
-  font-size: 12px; color: var(--paper); line-height: 1.4; margin-bottom: 3px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 230px;
-}
-.prop-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.prop-price { font-size: 11px; color: var(--gold); }
-.prop-type { font-size: 10px; color: rgba(247,244,239,0.4); }
-.posted-badge {
-  font-size: 9px; background: rgba(45,106,79,0.3); color: #6fcf97;
-  padding: 1px 6px; border-radius: 10px; letter-spacing: 0.06em;
-}
-.rec-badge {
-  font-size: 9px; background: rgba(184,149,106,0.25); color: var(--gold);
-  padding: 1px 6px; border-radius: 10px; letter-spacing: 0.06em;
-}
-.dup-badge {
-  font-size: 9px; background: rgba(235,87,87,0.2); color: #eb5757;
-  padding: 1px 6px; border-radius: 10px;
-}
-.prop-stats { font-size: 10px; color: rgba(247,244,239,0.3); margin-top: 2px; }
-
-.empty-list {
-  padding: 32px 18px; text-align: center;
-  font-size: 12px; color: rgba(247,244,239,0.3); line-height: 1.7;
-}
-.empty-list a { color: var(--gold); text-decoration: none; }
-
-.loading-list {
-  padding: 24px 18px; display: flex; align-items: center; gap: 10px;
-  font-size: 12px; color: rgba(247,244,239,0.4);
-}
-.mini-spin {
-  width: 14px; height: 14px; border: 1.5px solid rgba(184,149,106,0.3);
-  border-top-color: var(--gold); border-radius: 50%;
-  animation: spin 0.7s linear infinite; flex-shrink: 0;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.prop-counts {
-  padding: 10px 18px; font-size: 10px; color: rgba(247,244,239,0.3);
-  border-top: 1px solid rgba(255,255,255,0.06);
-  display: flex; gap: 14px;
-}
-.count-item em { color: var(--gold); font-style: normal; }
-
-/* ── Column 2: Input form ── */
-.form-panel {
-  background: var(--card); border-right: 1px solid var(--border);
-  overflow-y: auto; padding: 24px 22px;
-}
-.form-panel-hdr {
-  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 16px;
-  display: flex; align-items: center; gap: 8px;
-}
-.form-panel-hdr::after { content:''; flex:1; height:1px; background: var(--border); }
-
-.selected-prop-banner {
-  background: var(--gold-light); border: 1px solid rgba(184,149,106,0.3);
-  border-radius: 8px; padding: 10px 14px; margin-bottom: 18px;
-  font-size: 12px; line-height: 1.5; display: none;
-}
-.selected-prop-banner.show { display: block; }
-.selected-prop-banner strong { display: block; font-size: 13px; color: var(--ink); margin-bottom: 2px; }
-.selected-prop-banner span { color: var(--muted); }
-
-label {
-  display: block; font-size: 10px; font-weight: 500;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 6px;
-}
-input[type=text], input[type=url], textarea, select {
-  width: 100%; padding: 9px 12px;
-  border: 1px solid var(--border); border-radius: 7px;
-  background: var(--paper); font-family: 'DM Sans', sans-serif;
-  font-size: 13px; color: var(--ink); outline: none;
-  transition: border-color 0.2s; margin-bottom: 13px;
-}
-input:focus, textarea:focus, select:focus { border-color: var(--gold); background: white; }
-textarea { min-height: 72px; resize: vertical; }
-.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.row2 > div { display: flex; flex-direction: column; }
-.row2 input, .row2 select { margin-bottom: 0; }
-
-.feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 13px; }
-.ftag {
-  display: flex; align-items: center; gap: 6px;
-  padding: 6px 8px; border: 1px solid var(--border);
-  border-radius: 5px; cursor: pointer; font-size: 11px;
-  transition: all 0.12s; background: var(--paper);
-}
-.ftag:has(input:checked) { border-color: var(--gold); background: #fdf6ee; }
-.ftag input { margin: 0; accent-color: var(--gold); }
-
-.floorplan-row {
-  display: flex; align-items: center; gap: 8px;
-  padding: 8px 12px; border: 1px solid var(--border);
-  border-radius: 7px; margin-bottom: 13px; cursor: pointer;
-  background: var(--paper); font-size: 12px;
-}
-.floorplan-row:has(input:checked) { border-color: var(--gold); background: #fdf6ee; }
-.floorplan-row input { margin: 0; accent-color: var(--gold); }
-
-.photo-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
-.photo-row label { margin-bottom: 0; white-space: nowrap; }
-.photo-row input { margin-bottom: 0; width: 60px; }
-.photo-hint { font-size: 10px; color: var(--muted); }
-
-hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
-
-.gen-btn {
-  width: 100%; padding: 13px;
-  background: var(--ink); color: var(--paper);
-  border: none; border-radius: 8px;
-  font-family: 'Playfair Display', serif; font-size: 15px;
-  cursor: pointer; transition: background 0.2s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.gen-btn:hover { background: #2d2a24; }
-.gen-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.spinner { width: 14px; height: 14px; border: 2px solid rgba(247,244,239,0.3); border-top-color: var(--paper); border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
-.gen-btn.loading .spinner { display: block; }
-
-.progress { display: none; margin-top: 12px; background: var(--warm); border-radius: 7px; padding: 10px 12px; }
-.progress.show { display: block; }
-.pstep { display: flex; align-items: center; gap: 8px; padding: 2px 0; font-size: 11px; color: var(--muted); opacity: 0.4; transition: opacity 0.3s; }
-.pstep.on { opacity: 1; color: var(--ink); }
-.pstep.done { opacity: 0.55; }
-.pdot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
-.pstep.on .pdot { background: var(--gold); }
-.pstep.done .pdot { background: var(--success); }
-
-.err { display: none; margin-top: 10px; padding: 10px 12px; background: #fdf0ed; border: 1px solid rgba(200,71,43,0.25); border-radius: 7px; font-size: 12px; color: var(--accent); }
-.err.show { display: block; }
-
-.mark-posted-btn {
-  width: 100%; padding: 9px; margin-top: 10px;
-  background: var(--success-bg); color: var(--success);
-  border: 1px solid rgba(45,106,79,0.3); border-radius: 8px;
-  font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif;
-  display: none; transition: all 0.15s;
-}
-.mark-posted-btn.show { display: block; }
-.mark-posted-btn:hover { background: var(--success); color: white; }
-
-/* ── Column 3: Output ── */
-.output-panel { background: var(--warm); overflow-y: auto; padding: 28px 32px; }
-
-.empty-out {
-  height: 100%; min-height: 400px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center; gap: 12px; color: var(--muted);
-}
-.empty-out-icon { font-size: 36px; opacity: 0.35; }
-.empty-out h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 400; opacity: 0.4; color: var(--ink); }
-.empty-out p { font-size: 12px; max-width: 220px; line-height: 1.6; }
-
-.results { display: none; }
-.results.show { display: block; }
-
-.result-banner {
-  background: var(--ink); color: var(--paper); border-radius: 10px;
-  padding: 14px 18px; margin-bottom: 18px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.rb-left strong { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--gold); display: block; margin-bottom: 2px; }
-.rb-left span { font-size: 11px; color: rgba(247,244,239,0.45); }
-.rb-right { font-size: 11px; color: rgba(247,244,239,0.35); text-align: right; }
-
-.slide-card { background: white; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 16px; overflow: hidden; animation: up 0.3s ease; }
-@keyframes up { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
-.slide-hdr { background: var(--ink); color: var(--paper); padding: 10px 18px; display: flex; align-items: center; justify-content: space-between; }
-.slide-title { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; }
-.slide-num { font-size: 11px; color: var(--gold); font-family: 'Playfair Display', serif; }
-.slide-body { padding: 16px 18px; }
-
-.frow { display: flex; align-items: flex-start; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
-.frow:last-child { border-bottom: none; }
-.fname { width: 120px; flex-shrink: 0; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; padding-top: 1px; }
-.fval { flex: 1; color: var(--ink); line-height: 1.5; }
-.fval.italic { color: var(--muted); font-style: italic; }
-
-.copy-all-btn { float: right; margin-bottom: 10px; padding: 4px 10px; background: var(--warm); border: 1px solid var(--border); border-radius: 5px; font-size: 11px; cursor: pointer; color: var(--ink); font-family: 'DM Sans', sans-serif; transition: all 0.12s; }
-.copy-all-btn:hover { background: var(--ink); color: var(--paper); }
-.copy-all-btn.ok { background: var(--success-bg); color: var(--success); border-color: var(--success); }
-
-.note-box { margin-top: 10px; padding: 8px 10px; background: var(--warm); border-radius: 6px; font-size: 10px; color: var(--muted); line-height: 1.7; }
-
-.caption-card { background: white; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 16px; overflow: hidden; }
-.caption-hdr { padding: 10px 18px; background: var(--ink); color: var(--paper); display: flex; align-items: center; justify-content: space-between; }
-.caption-hdr-title { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; }
-.caption-body { padding: 16px 18px; }
-.caption-text { font-size: 13px; line-height: 1.9; white-space: pre-wrap; color: var(--ink); }
-.htags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.htag { background: #f5e8e4; border: 1px solid rgba(200,71,43,0.2); border-radius: 20px; padding: 3px 10px; font-size: 11px; color: var(--accent); }
-.htag.fixed { background: var(--gold-light); border-color: rgba(184,149,106,0.4); color: #7a5c35; }
-
-.excel-card { background: white; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 16px; overflow: hidden; }
-.excel-hdr { padding: 10px 18px; background: #1a3d2b; color: #d4edda; display: flex; align-items: center; justify-content: space-between; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
-.excel-body { padding: 14px 18px; font-size: 11px; color: var(--muted); word-break: break-all; line-height: 1.6; }
-
-.copy-btn { padding: 4px 10px; background: rgba(247,244,239,0.12); border: 1px solid rgba(247,244,239,0.2); border-radius: 5px; font-size: 10px; cursor: pointer; color: var(--paper); font-family: 'DM Sans', sans-serif; transition: all 0.12s; }
-.copy-btn:hover { background: rgba(247,244,239,0.22); }
-.copy-btn.ok { background: var(--success); border-color: var(--success); }
+/* Col 3 */
+.out-panel{background:var(--warm);overflow-y:auto;padding:24px 28px}
+.empty-out{height:100%;min-height:400px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;color:var(--muted)}
+.empty-out-icon{font-size:36px;opacity:0.3}
+.empty-out h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:400;opacity:0.38;color:var(--ink)}
+.empty-out p{font-size:12px;max-width:200px;line-height:1.6}
+.results{display:none}
+.results.show{display:block}
+.res-banner{background:var(--ink);color:var(--paper);border-radius:10px;padding:13px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.rb-l strong{font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);display:block;margin-bottom:2px}
+.rb-l span{font-size:11px;color:rgba(247,244,239,0.4)}
+.rb-r{font-size:10px;color:rgba(247,244,239,0.3);text-align:right}
+.slide-card{background:white;border-radius:11px;border:1px solid var(--border);margin-bottom:14px;overflow:hidden;animation:up 0.3s ease}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.slide-hdr{background:var(--ink);color:var(--paper);padding:9px 16px;display:flex;align-items:center;justify-content:space-between}
+.slide-title{font-size:11px;letter-spacing:0.08em;text-transform:uppercase}
+.slide-num{font-size:11px;color:var(--gold);font-family:'Playfair Display',serif}
+.slide-body{padding:14px 16px}
+.frow{display:flex;align-items:flex-start;gap:11px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
+.frow:last-child{border-bottom:none}
+.fname{width:115px;flex-shrink:0;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;padding-top:1px}
+.fval{flex:1;color:var(--ink);line-height:1.5}
+.fval.it{color:var(--muted);font-style:italic}
+.copy-all{float:right;margin-bottom:8px;padding:3px 9px;background:var(--warm);border:1px solid var(--border);border-radius:5px;font-size:10px;cursor:pointer;color:var(--ink);font-family:'DM Sans',sans-serif;transition:all 0.12s}
+.copy-all:hover{background:var(--ink);color:var(--paper)}
+.copy-all.ok{background:var(--success-bg);color:var(--success);border-color:var(--success)}
+.note-box{margin-top:9px;padding:7px 9px;background:var(--warm);border-radius:6px;font-size:10px;color:var(--muted);line-height:1.7}
+.cap-card{background:white;border-radius:11px;border:1px solid var(--border);margin-bottom:14px;overflow:hidden}
+.cap-hdr{padding:9px 16px;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:space-between}
+.cap-title{font-size:11px;letter-spacing:0.08em;text-transform:uppercase}
+.cap-body{padding:14px 16px}
+.cap-text{font-size:13px;line-height:2;white-space:pre-wrap;color:var(--ink);font-family:'DM Sans',sans-serif}
+.htags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.htag{background:#f5e8e4;border:1px solid rgba(200,71,43,0.2);border-radius:20px;padding:3px 9px;font-size:11px;color:var(--accent)}
+.htag.fixed{background:var(--gold-light);border-color:rgba(184,149,106,0.4);color:#7a5c35}
+.xl-card{background:white;border-radius:11px;border:1px solid var(--border);margin-bottom:14px;overflow:hidden}
+.xl-hdr{padding:9px 16px;background:#1a3d2b;color:#d4edda;display:flex;align-items:center;justify-content:space-between;font-size:11px;letter-spacing:0.07em;text-transform:uppercase}
+.xl-body{padding:12px 16px;font-size:11px;color:var(--muted);word-break:break-all;line-height:1.6}
+.copy-btn{padding:3px 9px;background:rgba(247,244,239,0.12);border:1px solid rgba(247,244,239,0.2);border-radius:5px;font-size:10px;cursor:pointer;color:var(--paper);font-family:'DM Sans',sans-serif;transition:all 0.12s}
+.copy-btn:hover{background:rgba(247,244,239,0.22)}
+.copy-btn.ok{background:var(--success);border-color:var(--success)}
 </style>
 </head>
 <body>
-
 <header>
-  <div class="logo">Lessel<em>.</em> <span style="font-family:'DM Sans';font-size:12px;opacity:0.4;margin-left:8px;">Content Studio</span></div>
-  <div class="hdr-right">
+  <div class="logo">Lessel<em>.</em> <span style="font-family:'DM Sans';font-size:11px;opacity:0.35;margin-left:8px;">Content Studio v4</span></div>
+  <div style="display:flex;align-items:center;gap:12px">
     <span class="sheet-status" id="sheetStatus">Not connected</span>
-    <span style="font-size:10px;color:rgba(247,244,239,0.25);">v3</span>
   </div>
 </header>
 
 <div class="layout">
 
-  <!-- ── Column 1: Property list ── -->
-  <div class="prop-panel">
-    <div class="prop-panel-hdr">
-      <h3>Properties</h3>
-      <div class="sheet-connect">
-        <input type="text" id="sheetIdInput" placeholder="Paste Google Sheet ID…" />
-        <button class="connect-btn" id="connectBtn" onclick="connectSheet()">Load</button>
-      </div>
-      <div style="margin-top:8px;font-size:10px;color:rgba(247,244,239,0.25);line-height:1.6;">
-        Sheet ID is in your Google Sheet URL:<br>
-        docs.google.com/spreadsheets/d/<em style="color:rgba(184,149,106,0.7);">THIS-PART</em>/edit
-      </div>
+<!-- ── Col 1: Properties ── -->
+<div class="prop-panel">
+  <div class="prop-panel-hdr">
+    <h3>Properties</h3>
+    <div class="sheet-connect">
+      <input type="text" id="sheetIdInput" placeholder="Paste Google Sheet ID or URL…"/>
+      <button class="connect-btn" id="connectBtn" onclick="connectSheet()">Load</button>
     </div>
-    <div class="prop-search">
-      <input type="text" id="searchInput" placeholder="Search address…" oninput="filterProps(this.value)" />
+    <div style="margin-top:7px;font-size:10px;color:rgba(247,244,239,0.22);line-height:1.5">
+      Sheet URL: …/spreadsheets/d/<em style="color:rgba(184,149,106,0.6)">THIS-PART</em>/edit
     </div>
-    <div class="prop-list" id="propList">
-      <div class="empty-list">
-        Connect your Google Sheet above to see your properties here.
-      </div>
-    </div>
-    <div class="prop-counts" id="propCounts" style="display:none">
-      <span><em id="countUnposted">0</em> to post</span>
-      <span><em id="countPosted">0</em> posted</span>
-      <span><em id="countDup">0</em> duplicates</span>
+  </div>
+  <div class="prop-search"><input type="text" placeholder="Search address…" oninput="filterProps(this.value)"/></div>
+  <div class="prop-list" id="propList"><div class="empty-list">Connect your Google Sheet above.</div></div>
+  <div class="prop-counts" id="propCounts" style="display:none">
+    <span><em id="cntUnposted">0</em> to post</span>
+    <span><em id="cntPosted">0</em> posted</span>
+  </div>
+</div>
+
+<!-- ── Col 2: Form ── -->
+<div class="form-panel">
+  <div class="form-lbl">Property details</div>
+  <div class="sel-banner" id="selBanner"><strong id="selAddr">—</strong><span id="selMeta">—</span></div>
+
+  <label>Rightmove URL</label>
+  <input type="url" id="rmUrl" placeholder="https://www.rightmove.co.uk/properties/…"/>
+
+  <label>Property address</label>
+  <input type="text" id="address" placeholder="e.g. Cutter Lane, SE10 0XX"/>
+
+  <div class="row2">
+    <div><label>Postcode / area</label><input type="text" id="postcode" placeholder="e.g. SE10"/></div>
+    <div>
+      <label>Property type</label>
+      <select id="propType">
+        <option value="">Select…</option>
+        <option>Studio apartment</option>
+        <option>1-bed apartment</option>
+        <option>2-bed apartment</option>
+        <option>3-bed apartment</option>
+        <option>1-bed flat</option>
+        <option>2-bed flat</option>
+        <option>3-bed flat</option>
+        <option>2-bed house</option>
+        <option>3-bed house</option>
+        <option>4-bed house</option>
+        <option>Student HMO</option>
+      </select>
     </div>
   </div>
 
-  <!-- ── Column 2: Form ── -->
-  <div class="form-panel">
-    <div class="form-panel-hdr">Property details</div>
-
-    <div class="selected-prop-banner" id="selBanner">
-      <strong id="selBannerAddr">—</strong>
-      <span id="selBannerMeta">—</span>
-    </div>
-
-    <label>Rightmove URL</label>
-    <input type="url" id="rmUrl" placeholder="https://www.rightmove.co.uk/properties/…" />
-
-    <label>Property address</label>
-    <input type="text" id="address" placeholder="e.g. Cutter Lane, SE10 0XX" />
-
-    <div class="row2">
-      <div><label>Postcode / area</label><input type="text" id="postcode" placeholder="e.g. SE10" /></div>
-      <div>
-        <label>Property type</label>
-        <select id="propType">
-          <option value="">Select…</option>
-          <option>Studio apartment</option>
-          <option>1-bed apartment</option>
-          <option>2-bed apartment</option>
-          <option>3-bed apartment</option>
-          <option>1-bed flat</option>
-          <option>2-bed flat</option>
-          <option>3-bed flat</option>
-          <option>2-bed house</option>
-          <option>3-bed house</option>
-          <option>4-bed house</option>
-          <option>Student HMO</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="row2">
-      <div><label>Rent (£/month)</label><input type="text" id="rent" placeholder="e.g. 2,500" /></div>
-      <div><label>Available from</label><input type="text" id="avail" placeholder="e.g. Now" /></div>
-    </div>
-
-    <div class="row2">
-      <div><label>Beds</label><input type="text" id="beds" placeholder="1" /></div>
-      <div><label>Baths</label><input type="text" id="baths" placeholder="1" /></div>
-    </div>
-
-    <label>Description / key selling points</label>
-    <textarea id="desc" placeholder="e.g. 6th floor, Thames views, balcony, luxury building with pool, cinema, concierge, near O2…"></textarea>
-
-    <label>Key features</label>
-    <div class="feature-grid">
-      <label class="ftag"><input type="checkbox" value="Thames views"> Thames views</label>
-      <label class="ftag"><input type="checkbox" value="Balcony"> Balcony</label>
-      <label class="ftag"><input type="checkbox" value="Concierge"> Concierge</label>
-      <label class="ftag"><input type="checkbox" value="Gym"> Gym</label>
-      <label class="ftag"><input type="checkbox" value="Swimming pool"> Pool</label>
-      <label class="ftag"><input type="checkbox" value="Cinema room"> Cinema room</label>
-      <label class="ftag"><input type="checkbox" value="Roof terrace"> Roof terrace</label>
-      <label class="ftag"><input type="checkbox" value="Furnished"> Furnished</label>
-      <label class="ftag"><input type="checkbox" value="Parking"> Parking</label>
-      <label class="ftag"><input type="checkbox" value="Pet friendly"> Pet friendly</label>
-      <label class="ftag"><input type="checkbox" value="Near tube/DLR"> Near tube/DLR</label>
-      <label class="ftag"><input type="checkbox" value="Near O2 Arena"> Near O2</label>
-    </div>
-
-    <hr>
-    <div class="form-panel-hdr" style="margin-bottom:12px;">Slide structure</div>
-
-    <label class="floorplan-row">
-      <input type="checkbox" id="hasFloorplan" checked>
-      <span>Listing has a floorplan (P2)</span>
-    </label>
-
-    <div class="photo-row">
-      <label>Photos from Rightmove:</label>
-      <input type="text" id="photoCount" value="8" oninput="updateSlideCount()" />
-      <span class="photo-hint">→ <span id="slideCount">4</span> photo slides</span>
-    </div>
-
-    <button class="gen-btn" id="genBtn" onclick="generate()">
-      <div class="spinner" id="spinner"></div>
-      <span id="btnTxt">Generate all slides →</span>
-    </button>
-
-    <button class="mark-posted-btn" id="markPostedBtn" onclick="markCurrentAsPosted()">
-      ✓ Mark this property as Posted in Sheet
-    </button>
-
-    <div class="err" id="errBox"></div>
-    <div class="progress" id="prog">
-      <div class="pstep" id="s1"><div class="pdot"></div> Reading property details</div>
-      <div class="pstep" id="s2"><div class="pdot"></div> Crafting Chinese caption</div>
-      <div class="pstep" id="s3"><div class="pdot"></div> Writing bilingual Canva copy</div>
-      <div class="pstep" id="s4"><div class="pdot"></div> Building slide structure</div>
-    </div>
+  <div class="row2">
+    <div><label>Rent (£/month)</label><input type="text" id="rent" placeholder="e.g. 2,500"/></div>
+    <div><label>Available from</label><input type="text" id="avail" placeholder="e.g. Now"/></div>
   </div>
 
-  <!-- ── Column 3: Output ── -->
-  <div class="output-panel">
-    <div class="empty-out" id="emptyOut">
-      <div class="empty-out-icon">🏙️</div>
-      <h3>Slides appear here</h3>
-      <p>Select a property from the left, then click Generate.</p>
-    </div>
-    <div class="results" id="results">
-      <div class="result-banner">
-        <div class="rb-left">
-          <strong id="rbAddr">—</strong>
-          <span id="rbMeta">—</span>
-        </div>
-        <div class="rb-right">Generated <span id="rbDate">—</span></div>
-      </div>
-      <div id="slidesOut"></div>
-      <div class="caption-card">
-        <div class="caption-hdr">
-          <span class="caption-hdr-title">📱 小红书 Caption</span>
-          <button class="copy-btn" onclick="copyEl('captionTxt',this)">Copy</button>
-        </div>
-        <div class="caption-body">
-          <div class="caption-text" id="captionTxt"></div>
-          <div class="htags" id="hashPills"></div>
-          <div id="hashRaw" style="display:none"></div>
-        </div>
-      </div>
-      <div class="excel-card">
-        <div class="excel-hdr">
-          <span>📊 Sheet row update</span>
-          <button class="copy-btn" onclick="copyEl('excelTxt',this)">Copy</button>
-        </div>
-        <div class="excel-body" id="excelTxt"></div>
-      </div>
-    </div>
+  <div class="row2">
+    <div><label>Beds</label><input type="text" id="beds" placeholder="1"/></div>
+    <div><label>Baths</label><input type="text" id="baths" placeholder="1"/></div>
   </div>
 
+  <div class="row2">
+    <div><label>Floor area (sq ft)</label><input type="text" id="sqft" placeholder="e.g. 515"/></div>
+    <div><label>Floor</label><input type="text" id="floor" placeholder="e.g. 6th"/></div>
+  </div>
+
+  <label>Description / key selling points</label>
+  <textarea id="desc" placeholder="e.g. Thames views, luxury building, near O2, concierge, balcony…"></textarea>
+
+  <label>Key features</label>
+  <div class="feature-grid">
+    <label class="ftag"><input type="checkbox" value="Thames views"> Thames views</label>
+    <label class="ftag"><input type="checkbox" value="Balcony"> Balcony</label>
+    <label class="ftag"><input type="checkbox" value="Concierge"> Concierge</label>
+    <label class="ftag"><input type="checkbox" value="Gym"> Gym</label>
+    <label class="ftag"><input type="checkbox" value="Swimming pool"> Pool</label>
+    <label class="ftag"><input type="checkbox" value="Cinema room"> Cinema room</label>
+    <label class="ftag"><input type="checkbox" value="Roof terrace"> Roof terrace</label>
+    <label class="ftag"><input type="checkbox" value="Furnished"> Furnished</label>
+    <label class="ftag"><input type="checkbox" value="Parking"> Parking</label>
+    <label class="ftag"><input type="checkbox" value="Pet friendly"> Pet friendly</label>
+    <label class="ftag"><input type="checkbox" value="Near tube/DLR"> Near tube/DLR</label>
+    <label class="ftag"><input type="checkbox" value="Near O2 Arena"> Near O2</label>
+  </div>
+
+  <hr>
+  <div class="form-lbl" style="margin-bottom:10px">Slide structure</div>
+  <label class="fp-row"><input type="checkbox" id="hasFloorplan" checked><span>Listing has a floorplan (P2)</span></label>
+  <div class="photo-row">
+    <label>Photos:</label>
+    <input type="text" id="photoCount" value="8" oninput="updateSC()"/>
+    <span class="photo-hint">→ <span id="slideCount">4</span> photo slides</span>
+  </div>
+
+  <button class="gen-btn" id="genBtn" onclick="generate()">
+    <div class="spinner" id="spinner"></div>
+    <span id="btnTxt">Generate all slides →</span>
+  </button>
+  <button class="mark-btn" id="markBtn" onclick="markPosted()">✓ Mark as Posted in Sheet</button>
+  <div class="err" id="errBox"></div>
+  <div class="prog" id="prog">
+    <div class="pstep" id="s1"><div class="pdot"></div> Reading property details</div>
+    <div class="pstep" id="s2"><div class="pdot"></div> Crafting Mandarin caption</div>
+    <div class="pstep" id="s3"><div class="pdot"></div> Writing bilingual Canva copy</div>
+    <div class="pstep" id="s4"><div class="pdot"></div> Building slide structure</div>
+  </div>
+</div>
+
+<!-- ── Col 3: Output ── -->
+<div class="out-panel">
+  <div class="empty-out" id="emptyOut">
+    <div class="empty-out-icon">🏙️</div>
+    <h3>Slides appear here</h3>
+    <p>Select a property from the left panel then click Generate.</p>
+  </div>
+  <div class="results" id="results">
+    <div class="res-banner">
+      <div class="rb-l"><strong id="rbAddr">—</strong><span id="rbMeta">—</span></div>
+      <div class="rb-r">Generated <span id="rbDate">—</span></div>
+    </div>
+    <div id="slidesOut"></div>
+    <div class="cap-card">
+      <div class="cap-hdr">
+        <span class="cap-title">📱 小红书 Caption (普通话)</span>
+        <button class="copy-btn" onclick="copyEl('capTxt',this)">Copy</button>
+      </div>
+      <div class="cap-body">
+        <div class="cap-text" id="capTxt"></div>
+        <div class="htags" id="hashPills"></div>
+        <div id="hashRaw" style="display:none"></div>
+      </div>
+    </div>
+    <div class="xl-card">
+      <div class="xl-hdr">
+        <span>📊 Sheet row</span>
+        <button class="copy-btn" onclick="copyEl('xlTxt',this)">Copy</button>
+      </div>
+      <div class="xl-body" id="xlTxt"></div>
+    </div>
+  </div>
+</div>
 </div>
 
 <script>
 // ── State ──────────────────────────────────────────────────────
-let allProps = [];
-let selectedProp = null;
+let allProps = [], selectedProp = null;
 let sheetId = localStorage.getItem('lesselSheetId') || '';
-
-// Restore sheet ID
-if (sheetId) {
-  document.getElementById('sheetIdInput').value = sheetId;
-  loadSheetData();
-}
+if (sheetId) { document.getElementById('sheetIdInput').value = sheetId; loadSheet(); }
 
 // ── Sheet connection ───────────────────────────────────────────
-
 function connectSheet() {
   const val = document.getElementById('sheetIdInput').value.trim();
-  // Accept full URL or just ID
-  const match = val.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
-  sheetId = match ? match[1] : val;
-  if (!sheetId) { showStatus('Please paste your Sheet ID or URL', false); return; }
+  const m = val.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+  sheetId = m ? m[1] : val;
+  if (!sheetId) return;
   localStorage.setItem('lesselSheetId', sheetId);
-  loadSheetData();
+  loadSheet();
 }
 
-async function loadSheetData() {
+async function loadSheet() {
   if (!sheetId) return;
   setStatus('Loading…', null);
-  document.getElementById('propList').innerHTML = '<div class="loading-list"><div class="mini-spin"></div> Loading properties…</div>';
+  document.getElementById('propList').innerHTML = '<div class="loading-list"><div class="mini-spin"></div> Loading…</div>';
   document.getElementById('connectBtn').disabled = true;
-
-  // Use Google Sheets JSON API (public read — sheet must be shared as "Anyone with link can view")
   const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Properties`;
-
   try {
     const resp = await fetch(url);
     const text = await resp.text();
-    // Strip Google's JSONP wrapper
-    const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
-    parseSheetData(json);
+    const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}')+1));
+    parseSheet(json);
     setStatus('Connected ✓', true);
   } catch(e) {
     setStatus('Connection failed', false);
-    document.getElementById('propList').innerHTML = `
-      <div class="empty-list">
-        ❌ Could not load sheet.<br><br>
-        Make sure your Google Sheet is shared:<br>
-        <strong>Share → Anyone with the link → Viewer</strong><br><br>
-        Then try again.
-      </div>`;
+    document.getElementById('propList').innerHTML = '<div class="empty-list">❌ Could not load sheet.<br><br>Make sure your Sheet is shared:<br><strong>Share → Anyone with link → Viewer</strong></div>';
   }
   document.getElementById('connectBtn').disabled = false;
 }
 
-function parseSheetData(json) {
+function parseSheet(json) {
   const rows = json.table?.rows || [];
   const cols = json.table?.cols || [];
-
-  // Map column names to indices
   const colMap = {};
-  cols.forEach((c, i) => {
-    const label = (c.label || '').toLowerCase().replace(/[^a-z]/g,'');
-    colMap[label] = i;
+  cols.forEach((c,i) => {
+    const k = (c.label||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+    colMap[k] = i;
   });
 
-  allProps = rows.slice(1).map((row, idx) => {
-    const c = row.c || [];
-    const get = (name) => {
-      const i = colMap[name] ?? -1;
-      if (i < 0 || !c[i]) return '';
-      return String(c[i].v ?? c[i].f ?? '').trim();
-    };
-    return {
-      rowIndex: idx + 2, // 1-indexed, +1 for header
-      id:        get('propertyid'),
-      address:   get('address'),
-      type:      get('type'),
-      beds:      get('beds'),
-      baths:     get('baths'),
-      price:     get('price£mo'),
-      dateSeen:  get('datefirstseen'),
-      status:    get('poststatus'),
-      postDate:  get('postdate'),
-      url:       get('rightmoveurl'),
-      notes:     get('notes'),
-    };
-  }).filter(p => p.id || p.address);
+  const get = (row, name) => {
+    const i = colMap[name] ?? -1;
+    if (i < 0 || !row.c?.[i]) return '';
+    return String(row.c[i].v ?? row.c[i].f ?? '').trim();
+  };
 
-  detectDuplicates();
-  renderPropList(allProps);
+  allProps = rows.slice(1).map((row, idx) => ({
+    rowIndex: idx + 2,
+    id:       get(row,'propertyid'),
+    address:  get(row,'address'),
+    type:     get(row,'type'),
+    beds:     get(row,'beds'),
+    baths:    get(row,'baths'),
+    price:    get(row,'price£mo'),
+    dateSeen: get(row,'datefirstseen'),
+    status:   get(row,'poststatus'),
+    postDate: get(row,'postdate'),
+    url:      get(row,'rightmoveurl'),
+    // Extended columns (from v3 script)
+    postcode: get(row,'postcodearea'),
+    propType: get(row,'propertytype'),
+    avail:    get(row,'availablefrom'),
+    desc:     get(row,'description'),
+    features: get(row,'features'),
+    sqft:     get(row,'sqft'),
+    floor:    get(row,'floor'),
+    floorplan:get(row,'hasfloorplan'),
+  })).filter(p => p.id || p.address);
+
+  detectDups();
+  renderList(allProps);
   updateCounts();
 }
 
-function detectDuplicates() {
-  const seen = {};
+// ── Duplicate detection (address + beds + baths + price) ──────
+function detectDups() {
+  const keyMap = {};
   allProps.forEach(p => {
-    const key = normaliseAddr(p.address);
-    if (key) {
-      if (seen[key]) {
-        p.isDuplicate = true;
-        seen[key].isDuplicate = true;
-      } else {
-        seen[key] = p;
-      }
-    }
-    // Also check by property ID
-    const idKey = p.id;
-    if (idKey) {
-      if (seen['id_'+idKey]) {
-        p.isDuplicate = true;
-        seen['id_'+idKey].isDuplicate = true;
-      } else {
-        seen['id_'+idKey] = p;
-      }
+    const addr  = p.address.toLowerCase().replace(/[^a-z0-9]/g,'').substring(0,20);
+    const key   = `${addr}__${p.beds}__${p.baths}__${p.price}`;
+    if (addr.length > 5 && (p.beds || p.baths || p.price)) {
+      if (!keyMap[key]) keyMap[key] = [];
+      keyMap[key].push(p);
     }
   });
-}
-
-function normaliseAddr(addr) {
-  return addr.toLowerCase().replace(/[^a-z0-9]/g,'').substring(0, 20);
+  Object.values(keyMap).forEach(group => {
+    if (group.length > 1) group.forEach(p => p.isDup = true);
+  });
 }
 
 // ── Render property list ───────────────────────────────────────
-
-function renderPropList(props) {
+function renderList(props) {
   const list = document.getElementById('propList');
-  if (!props.length) {
-    list.innerHTML = '<div class="empty-list">No properties found in sheet.</div>';
-    return;
-  }
+  if (!props.length) { list.innerHTML = '<div class="empty-list">No properties found.</div>'; return; }
 
-  const unposted = props.filter(p => p.status !== 'Posted' && p.status !== 'Skip');
+  const unposted = props.filter(p => p.status !== 'Posted' && p.status !== 'Skip' && !p.isDup);
+  const dups     = props.filter(p => p.isDup);
   const posted   = props.filter(p => p.status === 'Posted');
 
-  // Sort unposted: duplicates last, then by date seen oldest first
-  unposted.sort((a, b) => {
-    if (a.isDuplicate && !b.isDuplicate) return 1;
-    if (!a.isDuplicate && b.isDuplicate) return -1;
-    return parseDate(a.dateSeen) - parseDate(b.dateSeen);
-  });
-
-  const recommended = unposted.slice(0, 5);
+  unposted.sort((a,b) => parseDate(a.dateSeen) - parseDate(b.dateSeen));
+  const rec  = unposted.slice(0,5);
   const rest = unposted.slice(5);
 
   let html = '';
-
-  if (recommended.length) {
-    html += `<div class="section-hdr">⭐ Recommended this week</div>`;
-    recommended.forEach(p => { html += propItemHTML(p, true); });
-  }
-
-  if (rest.length) {
-    html += `<div class="section-hdr">Unposted</div>`;
-    rest.forEach(p => { html += propItemHTML(p, false); });
-  }
-
-  if (posted.length) {
-    html += `<div class="section-hdr">Posted</div>`;
-    posted.forEach(p => { html += propItemHTML(p, false); });
-  }
+  if (rec.length)  { html += `<div class="section-hdr">⭐ Recommended this week</div>`; rec.forEach(p  => { html += propHTML(p,true); }); }
+  if (rest.length) { html += `<div class="section-hdr">Unposted</div>`;                 rest.forEach(p => { html += propHTML(p,false); }); }
+  if (dups.length) { html += `<div class="section-hdr">⚠️ Duplicates — review</div>`;  dups.forEach(p => { html += propHTML(p,false,true); }); }
+  if (posted.length){ html += `<div class="section-hdr">Posted</div>`;                 posted.forEach(p=>{ html += propHTML(p,false,false,true); }); }
 
   list.innerHTML = html;
 }
 
-function propItemHTML(p, isRec) {
-  const isPosted = p.status === 'Posted';
-  const isDup    = p.isDuplicate;
-  const classes  = ['prop-item', isPosted ? 'posted' : '', isDup ? 'duplicate' : ''].filter(Boolean).join(' ');
-  const onclick  = isPosted ? '' : `onclick="selectProp('${p.id}')"`;
-  const addr     = p.address || `Property ${p.id}`;
-  const price    = p.price ? `£${p.price}/mo` : '';
-  const meta     = [p.beds ? p.beds+'bd' : '', p.baths ? p.baths+'ba' : '', p.type].filter(Boolean).join(' · ');
-
-  return `
-    <div class="${classes}" ${onclick} data-id="${p.id}" data-addr="${addr.toLowerCase()}">
-      <div class="prop-addr" title="${addr}">${addr}</div>
-      <div class="prop-meta">
-        ${price ? `<span class="prop-price">${price}</span>` : ''}
-        ${meta  ? `<span class="prop-type">${meta}</span>`  : ''}
-        ${isRec   ? '<span class="rec-badge">Recommend</span>'  : ''}
-        ${isPosted? '<span class="posted-badge">Posted</span>'  : ''}
-        ${isDup   ? '<span class="dup-badge">Duplicate</span>'  : ''}
-      </div>
-      ${p.dateSeen ? `<div class="prop-stats">Seen ${p.dateSeen}</div>` : ''}
-    </div>`;
+function propHTML(p, isRec, isDup, isPosted) {
+  const cls = ['prop-item', isPosted?'posted':'', isDup?'duplicate':''].filter(Boolean).join(' ');
+  const oc  = (isPosted||isDup) ? '' : `onclick="selectProp('${p.id}')"`;
+  const addr = p.address || `Property ${p.id}`;
+  const price = p.price ? `£${p.price}/mo` : '';
+  const meta  = [p.beds?p.beds+'bd':'', p.baths?p.baths+'ba':'', p.type||p.propType].filter(Boolean).join(' · ');
+  return `<div class="${cls}" ${oc} data-id="${p.id}" data-addr="${addr.toLowerCase()}">
+    <div class="prop-addr" title="${addr}">${addr}</div>
+    <div class="prop-meta">
+      ${price?`<span class="prop-price">${price}</span>`:''}
+      ${meta ?`<span class="prop-type">${meta}</span>`:''}
+      ${isRec  ?'<span class="rec-badge">Recommended</span>':''}
+      ${isPosted?'<span class="posted-badge">Posted</span>':''}
+      ${isDup  ?'<span style="font-size:9px;background:rgba(235,87,87,0.2);color:#eb5757;padding:1px 6px;border-radius:10px;">Duplicate</span>':''}
+    </div>
+    ${p.dateSeen?`<div class="prop-stats">Seen ${p.dateSeen}</div>`:''}
+  </div>`;
 }
 
-function filterProps(query) {
-  const q = query.toLowerCase();
+function filterProps(q) {
+  q = q.toLowerCase();
   document.querySelectorAll('.prop-item').forEach(el => {
-    const addr = el.dataset.addr || '';
-    el.style.display = (!q || addr.includes(q)) ? '' : 'none';
+    el.style.display = (!q || (el.dataset.addr||'').includes(q)) ? '' : 'none';
   });
 }
 
 function updateCounts() {
-  const unposted = allProps.filter(p => p.status !== 'Posted' && p.status !== 'Skip').length;
-  const posted   = allProps.filter(p => p.status === 'Posted').length;
-  const dups     = allProps.filter(p => p.isDuplicate).length;
-  document.getElementById('countUnposted').textContent = unposted;
-  document.getElementById('countPosted').textContent   = posted;
-  document.getElementById('countDup').textContent      = dups;
-  document.getElementById('propCounts').style.display  = 'flex';
+  document.getElementById('cntUnposted').textContent = allProps.filter(p=>p.status!=='Posted'&&p.status!=='Skip'&&!p.isDup).length;
+  document.getElementById('cntPosted').textContent   = allProps.filter(p=>p.status==='Posted').length;
+  document.getElementById('propCounts').style.display = 'flex';
 }
 
 // ── Select property ────────────────────────────────────────────
-
 function selectProp(id) {
   selectedProp = allProps.find(p => p.id === id);
   if (!selectedProp) return;
 
-  // Highlight in list
-  document.querySelectorAll('.prop-item').forEach(el => {
-    el.classList.toggle('selected', el.dataset.id === id);
-  });
+  document.querySelectorAll('.prop-item').forEach(el => el.classList.toggle('selected', el.dataset.id===id));
 
-  // Fill banner
   const banner = document.getElementById('selBanner');
   banner.classList.add('show');
-  document.getElementById('selBannerAddr').textContent = selectedProp.address || `Property ${id}`;
-  document.getElementById('selBannerMeta').textContent = [
-    selectedProp.type,
-    selectedProp.beds ? selectedProp.beds + ' bed' : '',
-    selectedProp.price ? '£' + selectedProp.price + '/mo' : ''
-  ].filter(Boolean).join(' · ');
+  document.getElementById('selAddr').textContent = selectedProp.address || `Property ${id}`;
+  document.getElementById('selMeta').textContent = [selectedProp.type||selectedProp.propType, selectedProp.beds?selectedProp.beds+' bed':'', selectedProp.price?'£'+selectedProp.price+'/mo':''].filter(Boolean).join(' · ');
 
-  // Pre-fill form
-  setField('rmUrl',    selectedProp.url);
-  setField('address',  selectedProp.address);
-  setField('postcode', extractPostcode(selectedProp.address));
-  setField('rent',     selectedProp.price);
-  setField('beds',     selectedProp.beds);
-  setField('baths',    selectedProp.baths);
-  setField('avail',    '');
-  setField('desc',     '');
+  // Fill all fields from sheet data
+  setF('rmUrl',    selectedProp.url);
+  setF('address',  selectedProp.address);
+  setF('postcode', selectedProp.postcode || extractPostcode(selectedProp.address));
+  setF('rent',     selectedProp.price);
+  setF('beds',     selectedProp.beds);
+  setF('baths',    selectedProp.baths);
+  setF('sqft',     selectedProp.sqft);
+  setF('floor',    selectedProp.floor);
+  setF('avail',    selectedProp.avail);
+  setF('desc',     selectedProp.desc);
 
-  // Try to match type in select
-  const typeEl = document.getElementById('propType');
-  const typeVal = selectedProp.type || '';
-  for (let opt of typeEl.options) {
-    if (opt.value.toLowerCase().includes(typeVal.toLowerCase()) || typeVal.toLowerCase().includes(opt.value.toLowerCase())) {
+  // Property type dropdown
+  const typeVal = selectedProp.propType || selectedProp.type || '';
+  const typeEl  = document.getElementById('propType');
+  typeEl.value  = '';
+  for (const opt of typeEl.options) {
+    if (typeVal && (opt.value.toLowerCase().includes(typeVal.toLowerCase()) || typeVal.toLowerCase().includes(opt.value.toLowerCase()))) {
       typeEl.value = opt.value; break;
     }
   }
 
-  // Show mark as posted button
-  document.getElementById('markPostedBtn').classList.add('show');
+  // Features checkboxes
+  const feats = (selectedProp.features || '').split(',').map(f=>f.trim().toLowerCase());
+  document.querySelectorAll('.feature-grid input[type=checkbox]').forEach(cb => {
+    cb.checked = feats.some(f => f && cb.value.toLowerCase().includes(f) || (f && f.includes(cb.value.toLowerCase())));
+  });
 
-  // Scroll form to top
-  document.querySelector('.form-panel').scrollTo({ top: 0, behavior: 'smooth' });
+  // Floorplan
+  const fp = (selectedProp.floorplan||'').toLowerCase();
+  document.getElementById('hasFloorplan').checked = fp === 'yes' || fp === 'true' || fp === '1';
+
+  document.getElementById('markBtn').classList.add('show');
+  document.querySelector('.form-panel').scrollTo({top:0,behavior:'smooth'});
 }
 
-function setField(id, val) {
-  const el = document.getElementById(id);
-  if (el) el.value = val || '';
-}
-
-function extractPostcode(addr) {
-  if (!addr) return '';
-  const m = addr.match(/[A-Z]{1,2}[0-9][0-9A-Z]?\s*[0-9][A-Z]{2}/i);
-  return m ? m[0].trim() : '';
-}
+function setF(id, val) { const el=document.getElementById(id); if(el) el.value=val||''; }
+function extractPostcode(addr) { const m=(addr||'').match(/[A-Z]{1,2}[0-9][0-9A-Z]?\s*[0-9][A-Z]{2}/i); return m?m[0].trim():''; }
 
 // ── Mark as posted ─────────────────────────────────────────────
-
-function markCurrentAsPosted() {
+function markPosted() {
   if (!selectedProp) return;
-  // Update locally
   selectedProp.status = 'Posted';
-  selectedProp.postDate = new Date().toLocaleDateString('en-GB');
-  renderPropList(allProps);
-  updateCounts();
-  document.getElementById('markPostedBtn').classList.remove('show');
-
-  // Show instruction
-  const today = new Date().toLocaleDateString('en-GB');
-  alert(`✅ Marked locally as Posted.\n\nTo update your Google Sheet:\n1. Open your Properties sheet\n2. Find "${selectedProp.address}"\n3. Change Post Status to "Posted"\n4. Set Post Date to ${today}\n\nOr use 🏠 Lessel → Mark selected rows as Posted in the sheet.`);
+  renderList(allProps); updateCounts();
+  document.getElementById('markBtn').classList.remove('show');
+  alert(`✅ Marked locally.\n\nTo save to your Sheet:\n🏠 Lessel → Mark selected rows as Posted`);
 }
 
 // ── Generate ───────────────────────────────────────────────────
-
-function updateSlideCount() {
-  const n = parseInt(document.getElementById('photoCount').value) || 0;
-  document.getElementById('slideCount').textContent = Math.ceil(n / 2);
+function updateSC() {
+  const n = parseInt(document.getElementById('photoCount').value)||0;
+  document.getElementById('slideCount').textContent = Math.ceil(n/2);
 }
 
 function getFeatures() {
-  return [...document.querySelectorAll('.feature-grid input:checked')].map(i => i.value);
+  return [...document.querySelectorAll('.feature-grid input:checked')].map(i=>i.value);
 }
 
 function setStep(n) {
-  ['s1','s2','s3','s4'].forEach((id, i) => {
-    const el = document.getElementById(id);
+  ['s1','s2','s3','s4'].forEach((id,i)=>{
+    const el=document.getElementById(id);
     el.classList.remove('on','done');
-    if (i < n-1) el.classList.add('done');
-    else if (i === n-1) el.classList.add('on');
+    if(i<n-1) el.classList.add('done');
+    else if(i===n-1) el.classList.add('on');
   });
 }
 
 async function generate() {
-  const btn = document.getElementById('genBtn');
-  const err = document.getElementById('errBox');
+  const btn  = document.getElementById('genBtn');
+  const err  = document.getElementById('errBox');
   const prog = document.getElementById('prog');
 
   const address  = document.getElementById('address').value.trim();
@@ -802,102 +543,168 @@ async function generate() {
   const avail    = document.getElementById('avail').value.trim();
   const beds     = document.getElementById('beds').value.trim();
   const baths    = document.getElementById('baths').value.trim();
+  const sqft     = document.getElementById('sqft').value.trim();
+  const floor    = document.getElementById('floor').value.trim();
   const desc     = document.getElementById('desc').value.trim();
   const rmUrl    = document.getElementById('rmUrl').value.trim();
   const features = getFeatures();
   const hasFloor = document.getElementById('hasFloorplan').checked;
-  const photoN   = parseInt(document.getElementById('photoCount').value) || 6;
-  const photoSlides = Math.ceil(photoN / 2);
+  const photoN   = parseInt(document.getElementById('photoCount').value)||6;
+  const photoSlides = Math.ceil(photoN/2);
+  const isFurnished = features.includes('Furnished');
 
   if (!address && !desc) { showErr('Please enter an address or description.'); return; }
 
   err.classList.remove('show');
-  btn.disabled = true; btn.classList.add('loading');
-  document.getElementById('btnTxt').textContent = 'Generating…';
+  btn.disabled=true; btn.classList.add('loading');
+  document.getElementById('btnTxt').textContent='Generating…';
   prog.classList.add('show'); setStep(1);
 
-  const propertyData = `Address: ${address}
+  // Build the exact Mandarin caption template to follow
+  const captionTemplate = `
+Caption must follow this EXACT structure in Simplified Mandarin Chinese:
+
+Line 1: 主标题重复一次 (repeat the catchy title as the opening line)
+
+[blank line]
+
+住进[location description]的[property type] ✨ (evocative lifestyle title)
+
+[blank line]
+
+📍 [项目名 · 区域 · 邮编]
+💷 £[rent] per month
+🛏 [x] bed [x] bath
+📐 [sqft if known] ㎡ or sq ft
+🛋 [已配家具 if furnished / 未配家具 if unfurnished]
+📆 Available [date/time]
+
+[blank line]
+
+📍 位置亮点（2–3 points）
+🚇 [commute advantage]
+🌿 [neighbourhood feel]
+🛍 [local amenities]
+
+[blank line]
+
+✨ 房屋亮点（3 points from actual features）
+✨ [highlight 1]
+✨ [highlight 2]  
+✨ [highlight 3]
+
+[blank line]
+
+适合：
+留学生 / 上班族 / 情侣 · 独居
+
+[blank line]
+
+在伦敦
+住得舒服
+通勤轻松
+生活会更从容
+
+[blank line]
+
+欢迎收藏这篇笔记
+了解更多伦敦租房信息分享`;
+
+  const prompt = `You are Lessel's social media content specialist. Lessel is a premium London lettings agency targeting Chinese-speaking renters.
+
+Property details:
+Address: ${address}
 Postcode/area: ${postcode}
 Type: ${propType}
 Rent: £${rent}/month
-Available: ${avail || 'TBC'}
+Available: ${avail||'TBC'}
 Beds: ${beds} | Baths: ${baths}
+Floor: ${floor} | Size: ${sqft} sq ft
+Furnished: ${isFurnished?'Yes':'No'}
 Description: ${desc}
-Features: ${features.join(', ') || 'none'}
+Features: ${features.join(', ')||'none'}
 Rightmove URL: ${rmUrl}
 Has floorplan: ${hasFloor}
-Photo slides (2 photos each): ${photoSlides}`;
+Photo slides (2 photos each): ${photoSlides}
 
-  const prompt = `You are Lessel's social media content specialist. Lessel is a premium London lettings agency targeting Chinese-speaking renters in the UK. Their RedNote (小红书) posts use a luxury lifestyle tone — aspirational, warm, visually vivid.
-
-Property:
-${propertyData}
+${captionTemplate}
 
 Return ONLY valid JSON, no markdown, no preamble:
 
 {
-  "address_short": "short address max 30 chars e.g. 'Cutter Lane, SE10'",
-  "area_label": "area name e.g. 'Greenwich, London'",
-  "postcode_display": "e.g. 'SE10'",
-  "type_display": "e.g. '1B1B'",
-  "beds": "number",
-  "baths": "number",
-  "price_display": "e.g. '£2,500'",
-  "available": "e.g. 'Now' or 'Aug 2025'",
+  "address_short": "short address max 28 chars",
+  "area_label": "area e.g. Greenwich, London",
+  "postcode_display": "e.g. SE10",
+  "type_display": "e.g. 1B1B",
+  "price_display": "e.g. £2,500",
+  "available": "e.g. Now or Aug 2025",
 
   "slide_cover": {
-    "hashtag_banner": "Chinese hashtag banner e.g. '#一周一个租赁推荐'",
-    "main_headline_en": "bold English headline e.g. 'Greenwich 1b1b'",
-    "postcode_badge": "e.g. 'SE10'",
-    "vertical_chinese_text": "evocative vertical Chinese text 10-20 chars for left side",
-    "bottom_caption_zh": "two-line Chinese caption, line1\\nline2 e.g. 'Greenwich河景公寓\\n住进泰晤士河畔的一居室'"
+    "hashtag_banner": "Chinese hashtag banner e.g. #一周一个租赁推荐",
+    "main_headline_en": "bold English headline e.g. Greenwich 1b1b",
+    "postcode_badge": "e.g. SE10",
+    "vertical_chinese_text": "evocative vertical Chinese lifestyle text 10-20 chars",
+    "bottom_caption_zh": "two-line Chinese caption line1\\nline2"
   },
 
   "slide_floorplan": {
-    "caption_zh": "short Chinese floorplan caption e.g. '户型图 · 515平方英尺'",
-    "caption_en": "short English e.g. 'Floor plan · 6th floor · 515 sq ft'"
+    "caption_zh": "e.g. 户型图 · 515平方英尺",
+    "caption_en": "e.g. Floor plan · 6th floor · 515 sq ft"
   },
 
-  "photo_slides": ${JSON.stringify(Array.from({length: photoSlides}, (_,i) => ({slide_num:i+1,label_zh:"",label_en:""})))},
+  "photo_slides": ${JSON.stringify(Array.from({length:photoSlides},(_,i)=>({slide_num:i+1,label_zh:"",label_en:""})))},
 
-  "caption_zh": "Full Chinese RedNote caption 120-180 chars. Vivid lifestyle tone for Chinese renters in UK. Eye-catching hook. Weave in location, features, transport. End with '私信了解详情💬'. Use \\n for line breaks. 2-3 emojis. NO hashtags in body.",
+  "caption_zh": "Full Mandarin caption following the EXACT template structure above. Use \\n for line breaks. NO hashtags in the body.",
 
-  "hashtags": ["exactly 10 hashtags without #. MUST include: 'lessel', '莱赛英伦'. Rest: relevant mix of location, property type, lifestyle, UK renting in Chinese and English"],
+  "hashtags": ["exactly 10 hashtags without #. MUST include: lessel and 莱赛英伦. Others: mix of #伦敦留学生 #伦敦上班族 #伦敦租房 style tags plus area-specific ones for ${postcode||address}"],
 
-  "excel_row": "tab-separated update row: ${selectedProp?.id || 'TBC'}\\t${address}\\t${propType}\\t${beds}\\t${baths}\\t${rent}\\t\\t${new Date().toLocaleDateString('en-GB')}\\tUnposted\\t\\t${rmUrl}\\t"
+  "excel_row": "${selectedProp?.id||'TBC'}\\t${address}\\t${propType}\\t${beds}\\t${baths}\\t${rent}\\t\\t${new Date().toLocaleDateString('en-GB')}\\tUnposted\\t\\t${rmUrl}\\t"
 }
 
-For photo_slides generate vivid bilingual labels for each pair based on typical listing photo sequence: living/kitchen, bedroom, bathroom/balcony, building amenities. label_zh: 4-8 chars, label_en: max 3 words.`;
+For photo_slides: generate vivid bilingual labels based on typical listing sequence: living/kitchen → bedroom → bathroom/balcony → building amenities. label_zh: 4-8 chars, label_en: max 3 words.`;
 
-  setTimeout(() => setStep(2), 700);
-  setTimeout(() => setStep(3), 1400);
+  setTimeout(()=>setStep(2),600);
+  setTimeout(()=>setStep(3),1300);
 
   try {
+    // Use a CORS proxy to call Anthropic API from browser
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
+        max_tokens: 1500,
         messages: [{ role: 'user', content: prompt }]
       })
     });
+
     setStep(4);
+
+    if (!res.ok) {
+      const errData = await res.json().catch(()=>({}));
+      throw new Error(errData.error?.message || `API error ${res.status}`);
+    }
+
     const data = await res.json();
     if (data.error) throw new Error(data.error.message);
-    const raw = data.content.map(b => b.text||'').join('');
+    const raw = data.content.map(b=>b.text||'').join('');
     const r = JSON.parse(raw.replace(/```json|```/g,'').trim());
-    renderResults(r, hasFloor, photoSlides, address, propType, beds);
+    renderResults(r, hasFloor, photoSlides, address, propType);
+
   } catch(e) {
-    showErr('Error: ' + e.message);
+    showErr('Error: ' + e.message + '. Check your internet connection and try again.');
   } finally {
-    btn.disabled = false; btn.classList.remove('loading');
-    document.getElementById('btnTxt').textContent = 'Generate all slides →';
-    setTimeout(() => prog.classList.remove('show'), 800);
+    btn.disabled=false; btn.classList.remove('loading');
+    document.getElementById('btnTxt').textContent='Generate all slides →';
+    setTimeout(()=>prog.classList.remove('show'),800);
   }
 }
 
-function renderResults(r, hasFloor, photoSlides, rawAddr, propType, beds) {
+function renderResults(r, hasFloor, photoSlides, rawAddr, propType) {
   document.getElementById('rbAddr').textContent = r.address_short || rawAddr;
   document.getElementById('rbMeta').textContent = [r.type_display, propType, r.price_display].filter(Boolean).join(' · ');
   document.getElementById('rbDate').textContent = new Date().toLocaleDateString('en-GB');
@@ -906,114 +713,96 @@ function renderResults(r, hasFloor, photoSlides, rawAddr, propType, beds) {
   out.innerHTML = '';
   let n = 1;
 
-  const cv = r.slide_cover || {};
-  out.appendChild(makeSlide(n++, 'P1 — Cover slide', [
-    ['Hashtag banner', cv.hashtag_banner || ''],
-    ['Main headline (EN)', cv.main_headline_en || ''],
-    ['Postcode badge', cv.postcode_badge || ''],
-    ['Vertical text (ZH)', cv.vertical_chinese_text || ''],
+  const cv = r.slide_cover||{};
+  out.appendChild(makeSlide(n++,'P1 — Cover slide',[
+    ['Hashtag banner', cv.hashtag_banner||''],
+    ['Main headline (EN)', cv.main_headline_en||''],
+    ['Postcode badge', cv.postcode_badge||''],
+    ['Vertical text (ZH)', cv.vertical_chinese_text||''],
     ['Bottom caption (ZH)', (cv.bottom_caption_zh||'').replace(/\\n/g,'\n')],
-    ['Replace →', '🖼 Property exterior photo  🎨 Area landmark graphic'],
-  ], ['Headline font: bold serif oversized', 'Vertical text rotated on left side']));
+    ['Replace →','🖼 Property exterior photo  🎨 Area landmark graphic'],
+  ],['Headline: bold serif oversized','Vertical text rotated on left side']));
 
   if (hasFloor) {
-    const fp = r.slide_floorplan || {};
-    out.appendChild(makeSlide(n++, 'P2 — Floorplan slide', [
-      ['Caption (ZH)', fp.caption_zh || ''],
-      ['Caption (EN)', fp.caption_en || ''],
-      ['Replace →', '🖼 Floorplan image from Rightmove listing'],
-    ], ['Only include if Rightmove listing has floorplan']));
+    const fp = r.slide_floorplan||{};
+    out.appendChild(makeSlide(n++,'P2 — Floorplan slide',[
+      ['Caption (ZH)', fp.caption_zh||''],
+      ['Caption (EN)', fp.caption_en||''],
+      ['Replace →','🖼 Floorplan image from Rightmove'],
+    ],['Only include if listing has floorplan']));
   }
 
-  const pl = r.photo_slides || [];
-  for (let i = 0; i < photoSlides; i++) {
-    const p = pl[i] || {};
-    out.appendChild(makeSlide(n++, `P${n-1} — Photo slide ${i+1}/${photoSlides}`, [
-      ['Slide label (ZH)', p.label_zh || ''],
-      ['Slide label (EN)', p.label_en || ''],
-      ['Photos →', `Photo ${i*2+1} (top) + Photo ${i*2+2} (bottom) — download from Rightmove`],
-    ], ['Dual-photo format: top + bottom with gold border']));
+  const pl = r.photo_slides||[];
+  for (let i=0; i<photoSlides; i++) {
+    const p = pl[i]||{};
+    out.appendChild(makeSlide(n++,`P${n-1} — Photo slide ${i+1}/${photoSlides}`,[
+      ['Slide label (ZH)', p.label_zh||''],
+      ['Slide label (EN)', p.label_en||''],
+      ['Photos →',`Photo ${i*2+1} (top) + Photo ${i*2+2} (bottom)`],
+    ],['Dual-photo format with gold border frame']));
   }
 
-  out.appendChild(makeSlide(n++, `P${n-1} — CTA slide (fixed)`, [
-    ['Content', '✅ Fixed slide — no changes needed.\nLessel logo + 第一时间掌握房源信息'],
-  ], []));
+  out.appendChild(makeSlide(n++,`P${n-1} — CTA slide (fixed)`,[
+    ['Content','✅ Fixed — no changes needed\nLessel logo + 第一时间掌握房源信息'],
+  ],[]));
 
   // Caption
-  document.getElementById('captionTxt').textContent = (r.caption_zh||'').replace(/\\n/g,'\n');
+  document.getElementById('capTxt').textContent = (r.caption_zh||'').replace(/\\n/g,'\n');
+
   const pills = document.getElementById('hashPills');
   pills.innerHTML = '';
   const rawTags = [];
   (r.hashtags||[]).forEach(h => {
     const tag = h.replace(/^#/,'');
     const el = document.createElement('span');
-    el.className = 'htag' + (['lessel','莱赛英伦'].includes(tag) ? ' fixed' : '');
-    el.textContent = '#' + tag;
+    el.className = 'htag'+(['lessel','莱赛英伦'].includes(tag)?' fixed':'');
+    el.textContent = '#'+tag;
     pills.appendChild(el);
     rawTags.push('#'+tag);
   });
   document.getElementById('hashRaw').textContent = rawTags.join(' ');
-  document.getElementById('excelTxt').textContent = (r.excel_row||'').replace(/\\t/g,'\t');
+  document.getElementById('xlTxt').textContent = (r.excel_row||'').replace(/\\t/g,'\t');
 
-  document.getElementById('emptyOut').style.display = 'none';
+  document.getElementById('emptyOut').style.display='none';
   const res = document.getElementById('results');
   res.classList.add('show');
-  document.querySelector('.output-panel').scrollTo({ top: 0, behavior: 'smooth' });
+  document.querySelector('.out-panel').scrollTo({top:0,behavior:'smooth'});
 }
 
 function makeSlide(num, title, fields, notes) {
   const card = document.createElement('div');
   card.className = 'slide-card';
-  const allText = fields.map(([k,v]) => `[${k}]\n${v}`).join('\n\n');
-  const copyId = 'slide_copy_'+num;
+  const allTxt = fields.map(([k,v])=>`[${k}]\n${v}`).join('\n\n');
+  const cid = 'sc_'+num;
   card.innerHTML = `
-    <div class="slide-hdr">
-      <span class="slide-title">${title}</span>
-      <span class="slide-num">Slide ${num}</span>
-    </div>
+    <div class="slide-hdr"><span class="slide-title">${title}</span><span class="slide-num">Slide ${num}</span></div>
     <div class="slide-body">
-      <div id="${copyId}" style="display:none">${allText}</div>
-      <button class="copy-all-btn" onclick="copyEl('${copyId}',this)">Copy all fields</button>
-      ${fields.map(([k,v]) => {
-        const isItalic = k.includes('→') || k.includes('fixed');
-        return `<div class="frow">
-          <span class="fname">${k}</span>
-          <span class="fval${isItalic?' italic':''}">${v.replace(/\n/g,'<br>')}</span>
-        </div>`;
-      }).join('')}
-      ${notes.length ? `<div class="note-box">${notes.map(n=>'💡 '+n).join('<br>')}</div>` : ''}
+      <div id="${cid}" style="display:none">${allTxt}</div>
+      <button class="copy-all" onclick="copyEl('${cid}',this)">Copy all fields</button>
+      ${fields.map(([k,v])=>`<div class="frow"><span class="fname">${k}</span><span class="fval${k.includes('→')||k.includes('fixed')?' it':''}">${v.replace(/\n/g,'<br>')}</span></div>`).join('')}
+      ${notes.length?`<div class="note-box">${notes.map(n=>'💡 '+n).join('<br>')}</div>`:''}
     </div>`;
   return card;
 }
 
 // ── Helpers ────────────────────────────────────────────────────
-
-function setStatus(msg, ok) {
-  const el = document.getElementById('sheetStatus');
-  el.textContent = msg;
-  el.className = 'sheet-status' + (ok === true ? ' ok' : ok === false ? ' err' : '');
+function setStatus(msg,ok) {
+  const el=document.getElementById('sheetStatus');
+  el.textContent=msg;
+  el.className='sheet-status'+(ok===true?' ok':ok===false?' err':'');
 }
-
-function showErr(msg) {
-  const eb = document.getElementById('errBox');
-  eb.textContent = msg; eb.classList.add('show');
-}
-
-function copyEl(id, btn) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  navigator.clipboard.writeText(el.textContent || el.innerText).then(() => {
-    const orig = btn.textContent;
-    btn.textContent = '✓ Copied'; btn.classList.add('ok');
-    setTimeout(() => { btn.textContent = orig; btn.classList.remove('ok'); }, 2000);
+function showErr(msg) { const eb=document.getElementById('errBox'); eb.textContent=msg; eb.classList.add('show'); }
+function copyEl(id,btn) {
+  const el=document.getElementById(id);
+  if(!el) return;
+  navigator.clipboard.writeText(el.textContent||el.innerText).then(()=>{
+    const orig=btn.textContent; btn.textContent='✓ Copied'; btn.classList.add('ok');
+    setTimeout(()=>{ btn.textContent=orig; btn.classList.remove('ok'); },2000);
   });
 }
-
 function parseDate(str) {
-  if (!str) return new Date(0);
-  if (str instanceof Date) return str;
-  const p = String(str).split('/');
-  return p.length === 3 ? new Date(p[2], p[1]-1, p[0]) : new Date(str);
+  if(!str) return new Date(0); if(str instanceof Date) return str;
+  const p=String(str).split('/'); return p.length===3?new Date(p[2],p[1]-1,p[0]):new Date(str);
 }
 </script>
 </body>
