@@ -22,6 +22,13 @@ header{background:var(--ink);height:52px;display:flex;align-items:center;justify
 .sheet-status{font-size:11px;color:rgba(247,244,239,0.45)}
 .sheet-status.ok{color:#6fcf97}
 .sheet-status.err{color:#eb5757}
+.api-key-row{display:flex;align-items:center;gap:7px}
+.api-key-row input{padding:5px 10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:var(--paper);font-size:11px;font-family:'DM Sans',sans-serif;outline:none;width:220px}
+.api-key-row input::placeholder{color:rgba(247,244,239,0.3)}
+.api-key-row input:focus{border-color:var(--gold)}
+.api-key-row label{font-size:10px;color:rgba(247,244,239,0.4);letter-spacing:0.06em;text-transform:uppercase;margin:0}
+.api-save-btn{padding:5px 10px;background:var(--gold);border:none;border-radius:5px;color:var(--ink);font-size:10px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.api-saved{font-size:10px;color:#6fcf97;display:none}
 
 .layout{display:grid;grid-template-columns:300px 360px 1fr;height:calc(100vh - 52px);margin-top:52px}
 
@@ -153,7 +160,13 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
 <body>
 <header>
   <div class="logo">Lessel<em>.</em> <span style="font-family:'DM Sans';font-size:11px;opacity:0.35;margin-left:8px;">Content Studio v4</span></div>
-  <div style="display:flex;align-items:center;gap:12px">
+  <div style="display:flex;align-items:center;gap:16px">
+    <div class="api-key-row">
+      <label>API Key</label>
+      <input type="password" id="apiKeyInput" placeholder="sk-ant-…" />
+      <button class="api-save-btn" onclick="saveApiKey()">Save</button>
+      <span class="api-saved" id="apiSaved">✓ Saved</span>
+    </div>
     <span class="sheet-status" id="sheetStatus">Not connected</span>
   </div>
 </header>
@@ -308,7 +321,25 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
 // ── State ──────────────────────────────────────────────────────
 let allProps = [], selectedProp = null;
 let sheetId = localStorage.getItem('lesselSheetId') || '';
-if (sheetId) { document.getElementById('sheetIdInput').value = sheetId; loadSheet(); }
+let apiKey  = localStorage.getItem('lesselApiKey')  || '';
+
+// Restore on load
+if (sheetId) { document.getElementById('sheetIdInput').value = sheetId; }
+if (apiKey)  { const ki = document.getElementById('apiKeyInput'); if(ki) ki.value = apiKey; document.getElementById('apiSaved').style.display='inline'; }
+if (sheetId) loadSheet();
+
+function saveApiKey() {
+  const val = document.getElementById('apiKeyInput').value.trim();
+  if (!val.startsWith('sk-ant-')) {
+    alert("That doesn't look like a valid Anthropic API key — it should start with sk-ant-\n\nGet yours at: console.anthropic.com → API Keys");
+    return;
+  }
+  apiKey = val;
+  localStorage.setItem('lesselApiKey', apiKey);
+  const saved = document.getElementById('apiSaved');
+  saved.style.display = 'inline';
+  setTimeout(() => { saved.style.display = 'none'; }, 3000);
+}
 
 // ── Sheet connection ───────────────────────────────────────────
 function connectSheet() {
@@ -367,7 +398,7 @@ function parseSheet(json) {
     postDate: get(row,'postdate'),
     url:      get(row,'rightmoveurl'),
     // Extended columns (from v3 script)
-    postcode: get(row,'postcodearea'),
+    postcode: get(row,'postcodearea') || get(row,'postcode') || extractPostcode(get(row,'address')),
     propType: get(row,'propertytype'),
     avail:    get(row,'availablefrom'),
     desc:     get(row,'description'),
@@ -553,6 +584,7 @@ async function generate() {
   const photoSlides = Math.ceil(photoN/2);
   const isFurnished = features.includes('Furnished');
 
+  if (!apiKey) { showErr('Please enter and save your Anthropic API key in the top bar first.'); return; }
   if (!address && !desc) { showErr('Please enter an address or description.'); return; }
 
   err.classList.remove('show');
@@ -672,6 +704,7 @@ For photo_slides: generate vivid bilingual labels based on typical listing seque
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true'
       },
